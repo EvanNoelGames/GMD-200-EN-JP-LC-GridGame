@@ -6,6 +6,8 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     private int numRooms;
+    private int numMoneyRooms;
+    private int numMysteryRooms;
 
     public float padding = 0.1f;
 
@@ -18,12 +20,15 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
-        numRooms = gameManager.CurrentFloor * 5;
         InitGrid();
     }
 
     public void InitGrid()
     {
+        numRooms = gameManager.CurrentFloor * 5;
+        numMoneyRooms = gameManager.CurrentFloor / 2;
+        numMysteryRooms = (int)(gameManager.CurrentFloor * 1.2f);
+
         for (int i = 0; i < numRooms; i++)
         {
             MapTile tile = Instantiate(room, transform);
@@ -74,13 +79,27 @@ public class MapManager : MonoBehaviour
 
     private int GetNextRoomType()
     {
-        switch (Random.Range(0, 3))
+        int nextRoom = Random.Range(0, 3);
+
+        if (numMoneyRooms == 0 && nextRoom == 1)
+        {
+            nextRoom = 0;
+        }
+
+        if (numMysteryRooms == 0 && nextRoom == 2)
+        {
+            nextRoom = 0;
+        }
+
+        switch (nextRoom)
         {
             case 0:
                 return 0;
             case 1:
+                numMoneyRooms--;
                 return 1;
             case 2:
+                numMysteryRooms--;
                 return 2;
             default:
                 return 0;
