@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    private int currentFloor = 5;
+    private int currentFloor = 1;
     public int CurrentFloor => currentFloor;
 
 
