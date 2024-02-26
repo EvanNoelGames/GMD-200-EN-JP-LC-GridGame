@@ -29,7 +29,7 @@ public class MapManager : MonoBehaviour
     public void InitGrid()
     {
         numRooms = gameManager.CurrentFloor * 5;
-        numMoneyRooms = (int)(gameManager.CurrentFloor / 1.2f);
+        numMoneyRooms = (int)(gameManager.CurrentFloor / 2.5f);
         numMysteryRooms = (int)(gameManager.CurrentFloor * 1.2f);
 
         StartCoroutine(Co_AddTile());
