@@ -471,6 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 168896239}
+  dragSpeed: 2
 --- !u!1 &1447282453
 GameObject:
   m_ObjectHideFlags: 0

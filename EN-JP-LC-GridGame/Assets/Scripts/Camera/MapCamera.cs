@@ -33,7 +33,10 @@ public class MapCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        HandleMapMovement();
+        if (map.DoneLoading)
+        {
+            HandleMapMovement();
+        }
     }
 
     public void SetupMap()

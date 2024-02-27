@@ -96,6 +96,7 @@ public class MapManager : MonoBehaviour
             tile.gridCoords = new Vector2Int((int)newTilePos.x, (int)newTilePos.y);
             tiles.Add(tile);
         }
+        doneLoading = true;
         mapCamera.SetupMap();
     }
 
