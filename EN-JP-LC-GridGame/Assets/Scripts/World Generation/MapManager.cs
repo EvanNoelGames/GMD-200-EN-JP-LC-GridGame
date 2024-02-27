@@ -14,9 +14,19 @@ public class MapManager : MonoBehaviour
     public GameManager gameManager;
 
     [SerializeField] private MapTile room;
+    [SerializeField] private MapCamera mapCamera;
 
     public List<MapTile> tiles;
-    Vector2 newTilePos;
+    private Vector2 newTilePos;
+
+    private float maxTileX;
+    private float minTileX;
+    private float maxTileY;
+    private float minTileY;
+    public float MaxTileX => maxTileX;
+    public float MinTileX => minTileX;
+    public float MaxTileY => maxTileY;
+    public float MinTileY => minTileY;
 
     private bool doneLoading = false;
     public bool DoneLoading => doneLoading;
@@ -42,6 +52,7 @@ public class MapManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.00000001f);
             MapTile tile = Instantiate(room, transform);
+            tile.gameObject.layer = 6;
             // if its the first tile on the floor ensure it is a start room
             if (i == 0)
             {
@@ -85,7 +96,7 @@ public class MapManager : MonoBehaviour
             tile.gridCoords = new Vector2Int((int)newTilePos.x, (int)newTilePos.y);
             tiles.Add(tile);
         }
-        doneLoading = true;
+        mapCamera.SetupMap();
     }
 
     private int GetNextRoomType()
@@ -93,8 +104,8 @@ public class MapManager : MonoBehaviour
         int nextRoom = Random.Range(0, 3);
 
         // add another layer of chance for money and mystery rooms
-        // 50%
-        if (nextRoom == 2 && Random.value > 0.5f)
+        // 80%
+        if (nextRoom == 2 && Random.value > 0.8f)
         {
             nextRoom = 0;
         }
@@ -189,6 +200,35 @@ public class MapManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public Vector3 GetAverageTilePosition()
+    {
+        maxTileX = tiles[0].transform.position.x;
+        minTileX = tiles[0].transform.position.x;
+        maxTileY = tiles[0].transform.position.y;
+        minTileY = tiles[0].transform.position.y;
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].transform.position.x > maxTileX)
+            {
+                maxTileX = tiles[i].transform.position.x;
+            }
+            else if (tiles[i].transform.position.x < minTileX)
+            {
+                minTileX = tiles[i].transform.position.x;
+            }
+            if (tiles[i].transform.position.y > maxTileY)
+            {
+                maxTileY = tiles[i].transform.position.y;
+            }
+            else if (tiles[i].transform.position.y < minTileY)
+            {
+                minTileY = tiles[i].transform.position.y;
+            }
+        }
+        return new Vector3((maxTileX + minTileX) / 2, (maxTileY + minTileY) / 2, 0);
     }
 
 }
