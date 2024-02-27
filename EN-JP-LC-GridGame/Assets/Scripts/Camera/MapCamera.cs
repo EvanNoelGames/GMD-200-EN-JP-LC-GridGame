@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class MapCamera : MonoBehaviour
 {
@@ -12,6 +13,14 @@ public class MapCamera : MonoBehaviour
 
     private float maxZoomOut;
 
+    public float dragSpeed = 2;
+    private Vector3 dragOrigin;
+    private Vector3 difference;
+    private Vector3 origin;
+
+    private bool drag;
+
+
     void Awake()
     {
         cam = GetComponent<Camera>();
@@ -20,6 +29,11 @@ public class MapCamera : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void LateUpdate()
+    {
+        HandleMapMovement();
     }
 
     public void SetupMap()
@@ -49,6 +63,50 @@ public class MapCamera : MonoBehaviour
         else
         {
             return botLeft.magnitude;
+        }
+    }
+
+    private void HandleMapMovement()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            difference = (Camera.main.ScreenToWorldPoint(Input.mousePosition)) - Camera.main.transform.position;
+            if (drag == false)
+            {
+                drag = true;
+                origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+        else
+        {
+            drag = false;
+        }
+
+        if (drag == true)
+        {
+            cam.transform.position = origin - difference;
+        }
+
+        // reset camera to origin and zoom out
+        if (Input.GetMouseButton(1))
+        {
+            cam.transform.position = mapMidPoint;
+            cam.orthographicSize = maxZoomOut;
+        }
+
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            cam.orthographicSize -= 0.5f;
+        }
+        else if (Input.mouseScrollDelta.y < 0)
+        {
+            cam.orthographicSize += 0.5f;
+        }
+
+        // don't zoom too far in
+        if (cam.orthographicSize < 1)
+        {
+            cam.orthographicSize = 1;
         }
     }
 }
