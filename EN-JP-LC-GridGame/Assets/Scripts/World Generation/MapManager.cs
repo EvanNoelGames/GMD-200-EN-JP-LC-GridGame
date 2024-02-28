@@ -15,6 +15,7 @@ public class MapManager : MonoBehaviour
 
     [SerializeField] private MapTile room;
     [SerializeField] private MapCamera mapCamera;
+    [SerializeField] private RoomGenerator roomGenerator;
 
     public List<MapTile> tiles;
     private Vector2 newTilePos;
@@ -38,9 +39,9 @@ public class MapManager : MonoBehaviour
 
     public void InitGrid()
     {
-        numRooms = gameManager.CurrentFloor * 5;
-        numMoneyRooms = (int)(gameManager.CurrentFloor / 2.5f);
-        numMysteryRooms = (int)(gameManager.CurrentFloor * 1.2f);
+        numRooms = (int)(gameManager.CurrentFloor * 1.5f + Random.Range(4, 6));
+        numMoneyRooms = (int)(numRooms / 2.5f);
+        numMysteryRooms = (int)(numRooms * 1.2f);
 
         StartCoroutine(Co_AddTile());
     }
@@ -98,6 +99,7 @@ public class MapManager : MonoBehaviour
         }
         doneLoading = true;
         mapCamera.SetupMap();
+        roomGenerator.GenerateRooms();
     }
 
     private int GetNextRoomType()
@@ -191,7 +193,7 @@ public class MapManager : MonoBehaviour
         yield return new WaitForSeconds(0.00000001f);
     }
 
-    private bool NoTilesExistAtPosition(Vector2 pos)
+    public bool NoTilesExistAtPosition(Vector2 pos)
     {
         for (int i = 0; i < tiles.Count; i++)
         {

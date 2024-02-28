@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7995308742700834689
+--- !u!1 &7347251399482410273
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6866794462893896861}
-  - component: {fileID: 7209357738976243133}
-  - component: {fileID: 5018538941201881063}
-  - component: {fileID: 8733881943009840577}
+  - component: {fileID: 576935293903785120}
+  - component: {fileID: 239464315916267456}
+  - component: {fileID: -4815195663097622331}
+  - component: {fileID: 2651439670029195554}
   m_Layer: 0
-  m_Name: Tile
-  m_TagString: Untagged
+  m_Name: room_tile
+  m_TagString: Basic Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6866794462893896861
+--- !u!4 &576935293903785120
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995308742700834689}
+  m_GameObject: {fileID: 7347251399482410273}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,13 +34,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7209357738976243133
+--- !u!212 &239464315916267456
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995308742700834689}
+  m_GameObject: {fileID: 7347251399482410273}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -75,38 +75,43 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 71bddcc2db3f0f54492b6760394452a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5018538941201881063
+--- !u!114 &-4815195663097622331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995308742700834689}
+  m_GameObject: {fileID: 7347251399482410273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff48244e75a5aff4987dfec8df2124a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 381a61db8929ea045a32cf89f3749e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: {fileID: 0}
+  roomManager: {fileID: 0}
   gridCoords: {x: 0, y: 0}
---- !u!61 &8733881943009840577
+  tileType: 0
+  startTile: {fileID: 21300000, guid: b3440531e87dcb94fba6448bd264f2e3, type: 3}
+  basicTile: {fileID: 21300000, guid: 71bddcc2db3f0f54492b6760394452a3, type: 3}
+  chestTile: {fileID: 21300000, guid: d2283f6cec203cc40b0a1664997257ea, type: 3}
+  exitTile: {fileID: 21300000, guid: 4238cbea4fd8d884ca8b937be981b8dc, type: 3}
+--- !u!61 &2651439670029195554
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995308742700834689}
+  m_GameObject: {fileID: 7347251399482410273}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -137,7 +142,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

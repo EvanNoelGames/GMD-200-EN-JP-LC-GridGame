@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5434257685504850195}
   - component: {fileID: 2651439670029195554}
   m_Layer: 0
-  m_Name: room
+  m_Name: map_tile
   m_TagString: Basic Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -14,7 +14,6 @@ public class MapCamera : MonoBehaviour
     private float maxZoomOut;
 
     public float dragSpeed = 2;
-    private Vector3 dragOrigin;
     private Vector3 difference;
     private Vector3 origin;
 
@@ -33,7 +32,7 @@ public class MapCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (map.DoneLoading)
+        if (map.DoneLoading && cam.enabled == true)
         {
             HandleMapMovement();
         }
@@ -46,6 +45,8 @@ public class MapCamera : MonoBehaviour
 
         maxZoomOut = GetFullZoomOut();
         ResetView();
+
+        cam.enabled = false;
     }
 
     public void ResetView()
