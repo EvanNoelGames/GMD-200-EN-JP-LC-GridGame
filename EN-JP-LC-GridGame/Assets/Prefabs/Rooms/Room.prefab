@@ -50,3 +50,4 @@ MonoBehaviour:
   gridCoords: {x: 0, y: 0}
   roomType: 0
   tilePrefab: {fileID: -4815195663097622331, guid: f62abc3efe9cf9f4ab139618dedfa013, type: 3}
+  _tiles: []

@@ -25,7 +25,7 @@ public class RoomManager : MonoBehaviour
     public Type roomType;
 
     [SerializeField] private RoomTile tilePrefab;
-    private RoomTile[] _tiles;
+    public List<RoomTile> _tiles;
 
     private void Awake()
     {
@@ -34,7 +34,6 @@ public class RoomManager : MonoBehaviour
 
     public void InitRoom()
     {
-        _tiles = new RoomTile[numRows * numColumns];
         for (int y = 0; y < numRows; y++)
         {
             for (int x = 0; x < numColumns; x++)
@@ -45,7 +44,8 @@ public class RoomManager : MonoBehaviour
                 tile.name = $"Tile_{x}_{y}";
                 tile.roomManager = this;
                 tile.gridCoords = new Vector2Int(x, y);
-                _tiles[y * numColumns + x] = tile;
+                tile.gameObject.layer = 7;
+                _tiles.Add(tile);
 
                 if (roomType == Type.exit)
                 {
@@ -62,7 +62,7 @@ public class RoomManager : MonoBehaviour
 
         if (roomType == Type.money)
         {
-            int chest = Random.Range(0, _tiles.Length);
+            int chest = Random.Range(0, _tiles.Count);
             _tiles[chest].tileType = RoomTile.Type.chest;
             _tiles[chest].UpdateSprite();
         }

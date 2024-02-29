@@ -11,6 +11,8 @@ public class RoomGenerator : MonoBehaviour
 
     [SerializeField] RoomTile exitTilePrefab;
 
+    [SerializeField] PlayerMovement playerMovement;
+
     public List<RoomManager> rooms;
 
     private float padding;
@@ -41,7 +43,9 @@ public class RoomGenerator : MonoBehaviour
         {
             AddExits(rooms[i]);
         }
+
         doneLoading = true;
+        playerMovement.gameObject.SetActive(true);
     }
 
     private void AddExits(RoomManager room)
@@ -65,6 +69,9 @@ public class RoomGenerator : MonoBehaviour
                 exit2.name = $"Tile_{exit2.transform.position.x}_{exit2.transform.position.y}_{exit2.tileType}_2";
                 exit2.transform.position += new Vector3((room.numColumns * (1 + padding)) / 2, room.numRows * (1 + padding), 0);
                 exit2.UpdateSprite();
+
+                exit1.gameObject.layer = 7;
+                exit2.gameObject.layer = 7;
             }
             else
             {
@@ -75,6 +82,8 @@ public class RoomGenerator : MonoBehaviour
                 exit1.name = $"Tile_{exit1.transform.position.x}_{exit1.transform.position.y}_{exit1.tileType}";
                 exit1.transform.position += new Vector3(((room.numColumns * (1 + padding)) / 2) - ((1 + padding) / 2), room.numRows * (1 + padding), 0);
                 exit1.UpdateSprite();
+
+                exit1.gameObject.layer = 7;
             }
         }
 
@@ -97,6 +106,9 @@ public class RoomGenerator : MonoBehaviour
                 exit2.name = $"Tile_{exit2.transform.position.x}_{exit2.transform.position.y}_{exit2.tileType}_2";
                 exit2.transform.position += new Vector3(room.numColumns * (1 + padding), (room.numRows * (1 + padding)) / 2, 0);
                 exit2.UpdateSprite();
+
+                exit1.gameObject.layer = 7;
+                exit2.gameObject.layer = 7;
             }
             else
             {
@@ -107,6 +119,8 @@ public class RoomGenerator : MonoBehaviour
                 exit1.name = $"Tile_{exit1.transform.position.x}_{exit1.transform.position.y}_{exit1.tileType}";
                 exit1.transform.position += new Vector3(room.numColumns * (1 + padding), ((room.numRows * (1 + padding)) / 2) - ((1 + padding) / 2), 0);
                 exit1.UpdateSprite();
+
+                exit1.gameObject.layer = 7;
             }
         }
     }
