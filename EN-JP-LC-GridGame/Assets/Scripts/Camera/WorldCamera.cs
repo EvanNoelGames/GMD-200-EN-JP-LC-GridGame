@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.EditorTools;
@@ -10,9 +11,11 @@ public class WorldCamera : MonoBehaviour
 
     [SerializeField] private PlayerMovement player;
 
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float moveSpeed = 0.25f;
 
     private Vector2 startingPosition;
+
+    private Ease camEaseType = Ease.InOutSine;
 
     private void Awake()
     {
@@ -46,21 +49,11 @@ public class WorldCamera : MonoBehaviour
     {
         if (direction == Vector2.up || direction == Vector2.down)
         {
-            StartCoroutine(Co_MoveCamera(transform.position + new Vector3(0, (direction.y * roomManager.numRows) + (direction.y * roomManager.numRows * roomManager.padding) + (direction.y + (direction.y * roomManager.padding)), -10)));
+            transform.DOLocalMoveY(transform.position.y + (direction.y * roomManager.numRows) + (direction.y * roomManager.numRows * roomManager.padding) + (direction.y + (direction.y * roomManager.padding)), moveSpeed).SetEase(camEaseType);
         }
         else if (direction == Vector2.right || direction == Vector2.left)
         {
-            StartCoroutine(Co_MoveCamera(transform.position + new Vector3((direction.x * roomManager.numColumns) + (direction.x * roomManager.numColumns * roomManager.padding) + (direction.x + (direction.x * roomManager.padding)), 0, -10)));
+            transform.DOLocalMoveX(transform.position.x + (direction.x * roomManager.numColumns) + (direction.x * roomManager.numColumns * roomManager.padding) + (direction.x + (direction.x * roomManager.padding)), moveSpeed).SetEase(camEaseType);
         }
-    }
-
-    IEnumerator Co_MoveCamera(Vector3 targetPosition)
-    {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            yield return null;
-        }
-        transform.position = targetPosition;
     }
 }
