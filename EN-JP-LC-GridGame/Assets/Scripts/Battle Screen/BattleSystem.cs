@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public class BattleSystem : MonoBehaviour
     Unit playerUnit; 
     Unit enemyUnit;
 
-    public Text dialougeText; 
+    public TextMeshProUGUI dialougeText; 
 
     public BattleHud playerHud; 
     public BattleHud enemyHud;
@@ -38,6 +39,8 @@ public class BattleSystem : MonoBehaviour
        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
        enemyUnit = enemyGO.GetComponent<Unit>();
 
+        dialougeText.text = "A wild " + enemyUnit.unitName + " approaches...";
+
         playerHud.SetHud(playerUnit);
         enemyHud.SetHud(enemyUnit);
 
@@ -52,7 +55,7 @@ public class BattleSystem : MonoBehaviour
        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
         enemyHud.SetHP(enemyUnit.currentHP);
-        //dialougeText.text = "The attack is succesful";
+        dialougeText.text = "The attack is succesful";
 
         yield return new WaitForSeconds(2f);    
 
@@ -70,7 +73,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        //dialougeText.text = enemyUnit.unitName + " attacks!";
+        dialougeText.text = enemyUnit.unitName + " attacks!";
 
         yield return new WaitForSeconds(1f);
 
@@ -94,7 +97,7 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
-        /*
+        
         if (state == BattleState.WON)
         {
             dialougeText.text = "You won the Battle!";
@@ -103,12 +106,12 @@ public class BattleSystem : MonoBehaviour
         {
             dialougeText.text = "You were Defeated.";
         }
-        */
+        
     }
 
     void playerTurn()
     {
-      //  dialougeText.text = "Choose an action:";
+        dialougeText.text = "Choose an action:";
     }
 
     IEnumerator PlayerHeal()
