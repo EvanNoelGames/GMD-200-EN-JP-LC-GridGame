@@ -8,9 +8,7 @@ public class RoomGenerator : MonoBehaviour
 {
     public MapManager mapManager;
     [SerializeField] RoomManager roomPrefab;
-
     [SerializeField] RoomTile exitTilePrefab;
-
     [SerializeField] PlayerMovement playerMovement;
 
     public List<RoomManager> rooms;
@@ -65,6 +63,8 @@ public class RoomGenerator : MonoBehaviour
         {
             AddExits(rooms[i]);
         }
+
+        mapManager.SetRoomsList(rooms);
 
         doneLoading = true;
         playerMovement.gameObject.SetActive(true);

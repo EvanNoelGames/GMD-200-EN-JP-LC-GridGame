@@ -16,8 +16,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private MapTile room;
     [SerializeField] private MapCamera mapCamera;
     [SerializeField] private RoomGenerator roomGenerator;
+    [SerializeField] private PlayerMovement player;
+    [SerializeField] private Transform playerPositionIndicator;
 
     public List<MapTile> tiles;
+    public List<RoomManager> roomList;
     private Vector2 newTilePos;
 
     private float maxTileX;
@@ -232,6 +235,30 @@ public class MapManager : MonoBehaviour
             }
         }
         return new Vector3((maxTileX + minTileX) / 2, (maxTileY + minTileY) / 2, 0);
+    }
+
+    public void SetRoomsList(List<RoomManager> rooms)
+    {
+        roomList = rooms;
+    }
+
+    public void UpdatePlayerPosition()
+    {
+        // get the room the player is in (the roomManager)
+        RoomManager rm = player.GetPlayerRoom();
+
+        // run through our list of rooms
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            // once we get to the roomManager that is the same as the one the player is on, update the indicator position
+            if (roomList[i] == rm)
+            {
+                playerPositionIndicator.transform.position = tiles[i].transform.position;
+                return;
+            }
+        }
+        // if we cannot find the room the player is on than set the indicator to the exit tile (the player's room does not exist)
+        playerPositionIndicator.transform.position = tiles[roomList.Count - 1].transform.position;
     }
 
 }

@@ -124,7 +124,7 @@ public class RoomManager : MonoBehaviour
     IEnumerator Co_SpawnChest()
     {
         int chest = Random.Range(0, _tiles.Count);
-        while (_tiles[chest].gameObject.tag == "Don't Spawn")
+        while (_tiles[chest].gameObject.tag == "Don't Spawn" || _tiles[chest].gameObject.tag == "Exit Tile")
         {
             yield return new WaitForSeconds(0.00000001f);
             chest = Random.Range(0, _tiles.Count);

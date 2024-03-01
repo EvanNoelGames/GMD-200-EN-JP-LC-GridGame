@@ -36,6 +36,11 @@ public class MapCamera : MonoBehaviour
         {
             HandleMapMovement();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleMap();
+        }
     }
 
     public void SetupMap()
@@ -111,6 +116,19 @@ public class MapCamera : MonoBehaviour
         if (cam.orthographicSize < 1)
         {
             cam.orthographicSize = 1;
+        }
+    }
+
+    private void ToggleMap()
+    {
+        if (cam.enabled)
+        {
+            cam.enabled = false;
+        }
+        else
+        {
+            ResetView();
+            cam.enabled = true;
         }
     }
 }
