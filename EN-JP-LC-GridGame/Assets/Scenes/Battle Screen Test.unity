@@ -968,7 +968,7 @@ GameObject:
   - component: {fileID: 744030552}
   - component: {fileID: 744030551}
   m_Layer: 5
-  m_Name: Dialouge
+  m_Name: 'DialougeText '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1670,7 +1670,7 @@ GameObject:
   - component: {fileID: 1319811759}
   - component: {fileID: 1319811758}
   m_Layer: 5
-  m_Name: 'Attack or Heal '
+  m_Name: Dialouge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2633,7 +2633,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1170598510620253557, guid: 7bf71dbba1eaa9a4db495ab9eed0452b, type: 3}
   playerBattleStation: {fileID: 1862645675}
   enemyBattleStation: {fileID: 702112832}
-  dialougeText: {fileID: 0}
+  dialougeText: {fileID: 744030551}
   playerHud: {fileID: 331966109}
   enemyHud: {fileID: 2076037300}
   state: 0
