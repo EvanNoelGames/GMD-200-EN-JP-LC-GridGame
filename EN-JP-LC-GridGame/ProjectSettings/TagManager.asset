@@ -8,6 +8,9 @@ TagManager:
   - Exit Room
   - Money Room
   - Mystery Room
+  - Start Room
+  - Exit Tile
+  - Don't Spawn
   layers:
   - Default
   - TransparentFX

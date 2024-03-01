@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fefb440ae0a8547b112d993e211d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRows: 6
-  numColumns: 6
+  numRows: 5
+  numColumns: 5
   padding: 0.1
   gridCoords: {x: 0, y: 0}
   roomType: 0

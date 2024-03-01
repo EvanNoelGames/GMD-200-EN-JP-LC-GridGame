@@ -33,7 +33,11 @@ public class RoomGenerator : MonoBehaviour
             room.transform.position = new Vector3(mapManager.tiles[i].gridCoords.x * ((roomPrefab.numColumns * (1 + padding)) + (1 + padding)), mapManager.tiles[i].gridCoords.y * ((roomPrefab.numRows * (1 + padding)) + (1 + padding)), 0);
             room.roomType = (RoomManager.Type)mapManager.tiles[i].roomType;
 
-            if (room.roomType == RoomManager.Type.basic)
+            if (room.roomType == RoomManager.Type.start)
+            {
+                room.gameObject.tag = "Start Room";
+            }
+            else if (room.roomType == RoomManager.Type.basic)
             {
                 room.gameObject.tag = "Basic Room";
             }
@@ -91,8 +95,8 @@ public class RoomGenerator : MonoBehaviour
                 exit1.gameObject.layer = 7;
                 exit2.gameObject.layer = 7;
 
-                exit1.gameObject.tag = "Exit Room";
-                exit2.gameObject.tag = "Exit Room";
+                exit1.gameObject.tag = "Exit Tile";
+                exit2.gameObject.tag = "Exit Tile";
 
                 room._tiles.Add(exit1);
                 room._tiles.Add(exit2);
@@ -109,7 +113,7 @@ public class RoomGenerator : MonoBehaviour
 
                 exit1.gameObject.layer = 7;
 
-                exit1.gameObject.tag = "Exit Room";
+                exit1.gameObject.tag = "Exit Tile";
 
                 room._tiles.Add(exit1);
             }
@@ -138,8 +142,8 @@ public class RoomGenerator : MonoBehaviour
                 exit1.gameObject.layer = 7;
                 exit2.gameObject.layer = 7;
 
-                exit1.gameObject.tag = "Exit Room";
-                exit2.gameObject.tag = "Exit Room";
+                exit1.gameObject.tag = "Exit Tile";
+                exit2.gameObject.tag = "Exit Tile";
 
                 room._tiles.Add(exit1);
                 room._tiles.Add(exit2);
@@ -156,7 +160,7 @@ public class RoomGenerator : MonoBehaviour
 
                 exit1.gameObject.layer = 7;
 
-                exit1.gameObject.tag = "Exit Room";
+                exit1.gameObject.tag = "Exit Tile";
 
                 room._tiles.Add(exit1);
             }
@@ -189,7 +193,7 @@ public class RoomGenerator : MonoBehaviour
                 // remove the exit room's exits
                 for (int j = 0; j < rooms[i]._tiles.Count; j++)
                 {
-                    if (rooms[i]._tiles[j].gameObject.tag == "Exit Room")
+                    if (rooms[i]._tiles[j].gameObject.tag == "Exit Tile")
                     {
                         rooms[i]._tiles[j].gameObject.SetActive(false);
                     }
