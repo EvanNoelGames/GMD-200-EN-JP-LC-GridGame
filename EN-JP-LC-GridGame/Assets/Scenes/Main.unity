@@ -257,8 +257,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1447282457}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &218226714
@@ -320,7 +319,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   roomManager: {fileID: 9163791153240804128, guid: 97ae55d5e4441f542854eb6f4c9cda44, type: 3}
+  roomGenerator: {fileID: 1903001992}
   enemyManager: {fileID: 953574478}
+  cam: {fileID: 1447282458}
 --- !u!50 &218226716
 Rigidbody2D:
   serializedVersion: 4
@@ -705,6 +706,7 @@ GameObject:
   - component: {fileID: 1447282456}
   - component: {fileID: 1447282455}
   - component: {fileID: 1447282454}
+  - component: {fileID: 1447282458}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -825,12 +827,27 @@ Transform:
   m_GameObject: {fileID: 1447282453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -7}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 218226713}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1447282458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447282453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581464536da3cbb49abbadb1fe85cbf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomManager: {fileID: 9163791153240804128, guid: 97ae55d5e4441f542854eb6f4c9cda44, type: 3}
+  player: {fileID: 218226715}
+  moveSpeed: 30
 --- !u!1 &1497834378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,6 +1244,7 @@ SceneRoots:
   - {fileID: 1669162086}
   - {fileID: 1497834379}
   - {fileID: 1067738676}
+  - {fileID: 1447282457}
   - {fileID: 218226713}
   - {fileID: 1045652747}
   - {fileID: 953574479}

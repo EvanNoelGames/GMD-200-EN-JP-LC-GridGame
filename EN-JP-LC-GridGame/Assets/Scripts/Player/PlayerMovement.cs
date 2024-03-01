@@ -12,7 +12,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 input;
 
     private bool playerTurn = true;
+    private bool lockPlayer = false;
     private bool playerMoving = false;
+
+    private Vector2 facingDirection;
+    public Vector2 FacingDirection => facingDirection;
 
     public float moveSpeed = 10f;
 
@@ -22,12 +26,20 @@ public class PlayerMovement : MonoBehaviour
     private bool canMoveLeft;
 
     [SerializeField] private RoomManager roomManager;
+    private RoomManager exitTile;
+    public RoomManager RoomManager => roomManager;
+    [SerializeField] private RoomGenerator roomGenerator;
+
     [SerializeField] private EnemyManager enemyManager;
+
+    [SerializeField] private WorldCamera cam;
 
     private void Awake()
     {
+        exitTile = roomManager;
         // spawn point
         transform.position = new Vector3((roomManager.numColumns / 2) + ((roomManager.numColumns / 2) * roomManager.padding), (roomManager.numRows / 2) + ((roomManager.numRows / 2) * roomManager.padding), -3);
+        cam.SetUpCam();
     }
 
     void Update()
@@ -47,25 +59,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-        input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        if (playerTurn && !playerMoving)
+        if (!lockPlayer)
         {
-            if (input.x == 1 && canMoveRight)
+            input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+            if (playerTurn && !playerMoving)
             {
-                StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
-            }
-            else if (input.x == -1 && canMoveLeft)
-            {
-                StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
-            }
-            else if (input.y == 1 && canMoveUp)
-            {
-                StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding)), transform.position.z)));
-            }
-            else if (input.y == -1 && canMoveDown)
-            {
-                StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding)), transform.position.z)));
+                if (input.x == 1 && canMoveRight)
+                {
+                    facingDirection = Vector2.right;
+                    StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
+                }
+                else if (input.x == -1 && canMoveLeft)
+                {
+                    facingDirection = Vector2.left;
+                    StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
+                }
+                else if (input.y == 1 && canMoveUp)
+                {
+                    facingDirection = Vector2.up;
+                    StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding)), transform.position.z)));
+                }
+                else if (input.y == -1 && canMoveDown)
+                {
+                    facingDirection = Vector2.down;
+                    StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding)), transform.position.z)));
+                }
             }
         }
     }
@@ -80,11 +99,80 @@ public class PlayerMovement : MonoBehaviour
         }
         transform.position = targetPosition;
         playerMoving = false;
+
+        if (lockPlayer)
+        {
+            StartCoroutine(Co_UnlockPlayer());
+        }
         enemyManager.EnemyTurn();
     }
 
     public void SetPlayerTurn(bool newVal)
     {
         playerTurn = newVal;
+    }
+
+    IEnumerator Co_UnlockPlayer()
+    {
+        yield return new WaitForSeconds(0.2f);
+        lockPlayer = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<RoomTile>() != null)
+        {
+            RoomTile colRoomTile = collision.GetComponent<RoomTile>();
+            RoomManager colRoom = collision.GetComponentInParent<RoomManager>();
+
+            if (colRoomTile.tileType == RoomTile.Type.start || colRoomTile.tileType == RoomTile.Type.basic || colRoomTile.tileType == RoomTile.Type.chest)
+            {
+                RoomManager colRoomManager = collision.gameObject.GetComponentInParent<RoomManager>();
+                if (colRoomManager != null)
+                {
+                    roomManager = colRoomManager;
+                }
+            }
+            else if (roomManager != exitTile)
+            {
+                roomManager = exitTile;
+
+                // make the player move off of the exit tile
+                StartCoroutine(Co_MovePlayerOffExit());
+
+                cam.MoveCamera(facingDirection);
+            }
+
+            if (colRoom.roomType == RoomManager.Type.exit)
+            {
+                roomGenerator.RemoveRooms();
+            }
+        }
+    }
+
+    IEnumerator Co_MovePlayerOffExit()
+    {
+        while (playerMoving)
+        {
+            yield return null;
+        }
+
+        lockPlayer = true;
+        if (facingDirection == Vector2.right)
+        {
+            StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
+        }
+        else if (facingDirection == Vector2.left)
+        {
+            StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y, transform.position.z)));
+        }
+        else if (facingDirection == Vector2.up)
+        {
+            StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding)), transform.position.z)));
+        }
+        else if (facingDirection == Vector2.down)
+        {
+            StartCoroutine(Co_MovePlayer(new Vector3(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding)), transform.position.z)));
+        }
     }
 }

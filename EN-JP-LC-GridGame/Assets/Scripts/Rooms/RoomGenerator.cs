@@ -32,6 +32,24 @@ public class RoomGenerator : MonoBehaviour
             RoomManager room = Instantiate(roomPrefab, transform);
             room.transform.position = new Vector3(mapManager.tiles[i].gridCoords.x * ((roomPrefab.numColumns * (1 + padding)) + (1 + padding)), mapManager.tiles[i].gridCoords.y * ((roomPrefab.numRows * (1 + padding)) + (1 + padding)), 0);
             room.roomType = (RoomManager.Type)mapManager.tiles[i].roomType;
+
+            if (room.roomType == RoomManager.Type.basic)
+            {
+                room.gameObject.tag = "Basic Room";
+            }
+            else if (room.roomType == RoomManager.Type.money)
+            {
+                room.gameObject.tag = "Money Room";
+            }
+            else if (room.roomType == RoomManager.Type.mystery)
+            {
+                room.gameObject.tag = "Mystery Room";
+            }
+            else if (room.roomType == RoomManager.Type.exit)
+            {
+                room.gameObject.tag = "Exit Room";
+            }
+
             room.name = $"Room_{room.transform.position.x}_{room.transform.position.y}_{room.roomType}";
             room.gridCoords = room.transform.position;
             rooms.Add(room);
@@ -72,6 +90,12 @@ public class RoomGenerator : MonoBehaviour
 
                 exit1.gameObject.layer = 7;
                 exit2.gameObject.layer = 7;
+
+                exit1.gameObject.tag = "Exit Room";
+                exit2.gameObject.tag = "Exit Room";
+
+                room._tiles.Add(exit1);
+                room._tiles.Add(exit2);
             }
             else
             {
@@ -84,6 +108,10 @@ public class RoomGenerator : MonoBehaviour
                 exit1.UpdateSprite();
 
                 exit1.gameObject.layer = 7;
+
+                exit1.gameObject.tag = "Exit Room";
+
+                room._tiles.Add(exit1);
             }
         }
 
@@ -109,6 +137,12 @@ public class RoomGenerator : MonoBehaviour
 
                 exit1.gameObject.layer = 7;
                 exit2.gameObject.layer = 7;
+
+                exit1.gameObject.tag = "Exit Room";
+                exit2.gameObject.tag = "Exit Room";
+
+                room._tiles.Add(exit1);
+                room._tiles.Add(exit2);
             }
             else
             {
@@ -121,6 +155,10 @@ public class RoomGenerator : MonoBehaviour
                 exit1.UpdateSprite();
 
                 exit1.gameObject.layer = 7;
+
+                exit1.gameObject.tag = "Exit Room";
+
+                room._tiles.Add(exit1);
             }
         }
     }
@@ -135,5 +173,28 @@ public class RoomGenerator : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void RemoveRooms()
+    {
+        // remove every room except for the exit room
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            if (rooms[i].gameObject.tag != "Exit Room")
+            {
+                rooms[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                // remove the exit room's exits
+                for (int j = 0; j < rooms[i]._tiles.Count; j++)
+                {
+                    if (rooms[i]._tiles[j].gameObject.tag == "Exit Room")
+                    {
+                        rooms[i]._tiles[j].gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 }
