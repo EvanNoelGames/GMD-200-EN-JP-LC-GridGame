@@ -57,14 +57,79 @@ public class RoomManager : MonoBehaviour
                     tile.tileType = RoomTile.Type.start;
                     tile.UpdateSprite();
                 }
+                else if (roomType == Type.basic)
+                {
+                    tile.tileType = RoomTile.Type.basic;
+                    tile.UpdateSprite();
+                }
+
+                // set which tiles chests and enemies cannot spawn on
+                if (numRows % 2 == 0 && numColumns % 2 == 0)
+                {
+                    if (x == numColumns / 2 || x == (numColumns / 2) - 1)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+
+                    if (y == numRows / 2 || y == (numRows / 2) - 1)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+                }
+                else if (numRows % 2 == 0 && numColumns % 2 != 0)
+                {
+                    if (x == numColumns / 2)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+
+                    if (y == numRows / 2 || y == (numRows / 2) - 1)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+                }
+                else if (numRows % 2 != 0 && numColumns % 2 == 0)
+                {
+                    if (x == numColumns / 2 || x == (numColumns / 2) - 1)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+
+                    if (y == numRows / 2)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+                }
+                else if (numRows % 2 != 0 && numColumns % 2 != 0)
+                {
+                    if (x == numColumns / 2)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+
+                    if (y == numRows / 2)
+                    {
+                        tile.gameObject.tag = "Don't Spawn";
+                    }
+                }
             }
         }
 
         if (roomType == Type.money)
         {
-            int chest = Random.Range(0, _tiles.Count);
-            _tiles[chest].tileType = RoomTile.Type.chest;
-            _tiles[chest].UpdateSprite();
+            StartCoroutine(Co_SpawnChest());
         }
+    }
+
+    IEnumerator Co_SpawnChest()
+    {
+        int chest = Random.Range(0, _tiles.Count);
+        while (_tiles[chest].gameObject.tag == "Don't Spawn")
+        {
+            yield return new WaitForSeconds(0.00000001f);
+            chest = Random.Range(0, _tiles.Count);
+        }
+        _tiles[chest].tileType = RoomTile.Type.chest;
+        _tiles[chest].UpdateSprite();
     }
 }
