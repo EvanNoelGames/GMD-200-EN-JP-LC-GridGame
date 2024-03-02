@@ -25,7 +25,9 @@ public class RoomManager : MonoBehaviour
     public Type roomType;
 
     [SerializeField] private RoomTile tilePrefab;
+    [SerializeField] private EnemyMovement enemyPrefab;
     public List<RoomTile> _tiles;
+    public List<EnemyMovement> _enemies;
 
     private void Awake()
     {
@@ -114,6 +116,9 @@ public class RoomManager : MonoBehaviour
                 }
             }
         }
+
+        // add enemy spawning here, add each spawned enemy to the _enemies list
+
 
         if (roomType == Type.money)
         {

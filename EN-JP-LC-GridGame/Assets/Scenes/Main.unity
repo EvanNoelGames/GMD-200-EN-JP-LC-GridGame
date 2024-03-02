@@ -466,6 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 218226715}
+  enemy: {fileID: 7248960676501710514, guid: 3b58a3106891c8b4081aa110d8ca71f6, type: 3}
 --- !u!4 &953574479
 Transform:
   m_ObjectHideFlags: 0
@@ -812,7 +813,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 439
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

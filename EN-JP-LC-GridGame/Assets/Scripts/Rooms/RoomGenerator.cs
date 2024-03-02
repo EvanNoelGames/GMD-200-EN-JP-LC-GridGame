@@ -92,8 +92,8 @@ public class RoomGenerator : MonoBehaviour
                 exit2.transform.position += new Vector3((room.numColumns * (1 + padding)) / 2, room.numRows * (1 + padding), 0);
                 exit2.UpdateSprite();
 
-                exit1.gameObject.layer = 7;
-                exit2.gameObject.layer = 7;
+                exit1.gameObject.layer = 8;
+                exit2.gameObject.layer = 8;
 
                 exit1.gameObject.tag = "Exit Tile";
                 exit2.gameObject.tag = "Exit Tile";
@@ -111,7 +111,7 @@ public class RoomGenerator : MonoBehaviour
                 exit1.transform.position += new Vector3(((room.numColumns * (1 + padding)) / 2) - ((1 + padding) / 2), room.numRows * (1 + padding), 0);
                 exit1.UpdateSprite();
 
-                exit1.gameObject.layer = 7;
+                exit1.gameObject.layer = 8;
 
                 exit1.gameObject.tag = "Exit Tile";
 
@@ -139,8 +139,8 @@ public class RoomGenerator : MonoBehaviour
                 exit2.transform.position += new Vector3(room.numColumns * (1 + padding), (room.numRows * (1 + padding)) / 2, 0);
                 exit2.UpdateSprite();
 
-                exit1.gameObject.layer = 7;
-                exit2.gameObject.layer = 7;
+                exit1.gameObject.layer = 8;
+                exit2.gameObject.layer = 8;
 
                 exit1.gameObject.tag = "Exit Tile";
                 exit2.gameObject.tag = "Exit Tile";
@@ -158,7 +158,7 @@ public class RoomGenerator : MonoBehaviour
                 exit1.transform.position += new Vector3(room.numColumns * (1 + padding), ((room.numRows * (1 + padding)) / 2) - ((1 + padding) / 2), 0);
                 exit1.UpdateSprite();
 
-                exit1.gameObject.layer = 7;
+                exit1.gameObject.layer = 8;
 
                 exit1.gameObject.tag = "Exit Tile";
 

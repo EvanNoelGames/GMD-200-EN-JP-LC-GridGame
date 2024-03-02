@@ -33,11 +33,8 @@ public class PlayerMovement : MonoBehaviour
     private RoomManager defaultRoom;
     public RoomManager RoomManager => roomManager;
     [SerializeField] private RoomGenerator roomGenerator;
-
     [SerializeField] private EnemyManager enemyManager;
-
     [SerializeField] private WorldCamera cam;
-
     [SerializeField] private MapManager mapManager;
 
     private void Awake()
@@ -62,10 +59,41 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerCollision()
     {
         // collision boxes to detect which directions are available
-        canMoveUp = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 7);
-        canMoveDown = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 7);
-        canMoveRight = Physics2D.OverlapBox(new Vector2(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 7);
-        canMoveLeft = Physics2D.OverlapBox(new Vector2(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 7);
+        if (Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 7) || Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y + (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 8))
+        {
+            canMoveUp = true;
+        }
+        else
+        {
+            canMoveUp = false;
+        }
+
+        if (Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 7) || Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - (1 + (1 * roomManager.padding))), Vector2.one, 0, 1 << 8))
+        {
+            canMoveDown = true;
+        }
+        else
+        {
+            canMoveDown = false;
+        }
+
+        if (Physics2D.OverlapBox(new Vector2(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 7) || Physics2D.OverlapBox(new Vector2(transform.position.x + (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 8))
+        {
+            canMoveRight = true;
+        }
+        else
+        {
+            canMoveRight = false;
+        }
+
+        if (Physics2D.OverlapBox(new Vector2(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 7) || Physics2D.OverlapBox(new Vector2(transform.position.x - (1 + (1 * roomManager.padding)), transform.position.y), Vector2.one, 0, 1 << 8))
+        {
+            canMoveLeft = true;
+        }
+        else
+        {
+            canMoveLeft = false;
+        }
     }
 
     private void PlayerInput()
@@ -127,7 +155,10 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Co_UnlockPlayer());
         }
-        enemyManager.EnemyTurn();
+        else if (playerTurn)
+        {
+            enemyManager.EnemyTurn();
+        }
     }
 
     public void SetPlayerTurn(bool newVal)
@@ -142,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Co_UnlockPlayer()
     {
-        yield return new WaitForSeconds(moveSpeed * 2);
+        yield return new WaitForSeconds(moveSpeed * 4);
 
         moveSpeed = exitSpeed / 2;
 
