@@ -17,11 +17,6 @@ public class WorldCamera : MonoBehaviour
 
     private Ease camEaseType = Ease.InOutSine;
 
-    private void Awake()
-    {
-        
-    }
-
     public void SetUpCam()
     {
         // the starting position of the camera will be different depending on if there is an odd or even amount of rows and columns

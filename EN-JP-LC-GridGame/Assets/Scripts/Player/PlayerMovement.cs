@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private bool playerTurn = true;
     private bool lockPlayer = false;
     private bool playerMoving = false;
+    private bool playerMovingOverExit = false;
 
     private Vector2 facingDirection;
     public Vector2 FacingDirection => facingDirection;
@@ -53,6 +54,11 @@ public class PlayerMovement : MonoBehaviour
         if (!lockPlayer)
         {
             PlayerInput();
+        }
+
+        if (!DOTween.IsTweening(transform))
+        {
+            playerMoving = false;
         }
     }
 
@@ -105,24 +111,23 @@ public class PlayerMovement : MonoBehaviour
             if (input.x == 1 && canMoveRight)
             {
                 facingDirection = Vector2.right;
+                MovePlayer();
             }
             else if (input.x == -1 && canMoveLeft)
             {
                 facingDirection = Vector2.left;
+                MovePlayer();
             }
             else if (input.y == 1 && canMoveUp)
             {
                 facingDirection = Vector2.up;
+                MovePlayer();
             }
             else if (input.y == -1 && canMoveDown)
             {
                 facingDirection = Vector2.down;
+                MovePlayer();
             }
-            else
-            {
-                return;
-            }
-            MovePlayer();
         }
     }
 
@@ -149,13 +154,20 @@ public class PlayerMovement : MonoBehaviour
             transform.DOLocalMoveY(transform.position.y - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
         }
 
-        playerMoving = false;
-
         if (lockPlayer)
         {
             StartCoroutine(Co_UnlockPlayer());
         }
-        else if (playerTurn)
+        else
+        {
+            StartCoroutine(Co_EnemyTurn());
+        }
+    }
+
+    IEnumerator Co_EnemyTurn()
+    {
+        yield return new WaitForSeconds(moveSpeed);
+        if (!playerMovingOverExit)
         {
             enemyManager.EnemyTurn();
         }
@@ -178,6 +190,7 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed = exitSpeed / 2;
 
         lockPlayer = false;
+        playerMovingOverExit = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -201,6 +214,7 @@ public class PlayerMovement : MonoBehaviour
             // if it is an exit tile then set the roomManager back to its default state before we update it next movement
             else if (roomManager != defaultRoom)
             {
+                playerMovingOverExit = true;
                 roomManager = defaultRoom;
 
                 // make the player move off of the exit tile

@@ -9,10 +9,10 @@ public class EnemyManager : MonoBehaviour
 
     private RoomManager playerRoom;
 
-    private List<EnemyMovement> activeEnemies;
+    public List<EnemyMovement> activeEnemies;
+    public List<Vector3> enemyMovements;
 
     private float turnSpeed = 0.2f;
-
 
     private void Update()
     {
@@ -24,26 +24,29 @@ public class EnemyManager : MonoBehaviour
         playerRoom = playerMovement.GetPlayerRoom();
 
         activeEnemies = playerRoom._enemies;
-
-        StartCoroutine(Co_MoveEnemies());
     }
 
     public void EnemyTurn()
     {
         playerMovement.SetPlayerTurn(false);
-        GetActiveEnemies();
+        StartCoroutine(Co_MoveEnemies());
     }
 
     IEnumerator Co_MoveEnemies()
     {
-        yield return new WaitForSeconds(turnSpeed);
 
         for (int i = 0; i < activeEnemies.Count; i++)
         {
+            activeEnemies[i].doneMoving = false;
+            activeEnemies[i].enemyManager = this;
+
             activeEnemies[i].EnemyTurn();
         }
 
+        enemyMovements.Clear();
+
         yield return new WaitForSeconds(turnSpeed);
+
         playerMovement.SetPlayerTurn(true);
     }
 }

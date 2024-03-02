@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -9,8 +10,12 @@ public class EnemyMovement : MonoBehaviour
     private Vector2 facingDirection;
     public Vector2 FacingDirection => facingDirection;
 
+    public Vector2 nextPos;
+
     public float moveSpeed = 0.1f;
     private int nextDirection;
+
+    public bool doneMoving = false;
 
     private Ease moveEaseType = Ease.InOutSine;
 
@@ -24,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
     public RoomManager RoomManager => roomManager;
     [SerializeField] private RoomGenerator roomGenerator;
 
-    [SerializeField] private EnemyManager enemyManager;
+    [SerializeField] public EnemyManager enemyManager;
 
     [SerializeField] private MapManager mapManager;
 
@@ -55,22 +60,22 @@ public class EnemyMovement : MonoBehaviour
         {
             yield return new WaitForSeconds(0.00000001f);
             nextDirection = Random.Range(0, 4);
-            if (nextDirection == 0 && canMoveUp)
+            if (nextDirection == 0 && canMoveUp && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)), 0)))
             {
                 cantMove = false;
                 facingDirection = Vector2.up;
             }
-            else if (nextDirection == 1 && canMoveRight)
+            else if (nextDirection == 1 && canMoveRight && CheckDir(new Vector3(transform.localPosition.x + (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
             {
                 cantMove = false;
                 facingDirection = Vector2.right;
             }
-            else if (nextDirection == 2 && canMoveDown)
+            else if (nextDirection == 2 && canMoveDown && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)), 0)))
             {
                 cantMove = false;
                 facingDirection = Vector2.down;
             }
-            else if (nextDirection == 3 && canMoveLeft)
+            else if (nextDirection == 3 && canMoveLeft && CheckDir(new Vector3(transform.localPosition.x - (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
             {
                 cantMove = false;
                 facingDirection = Vector2.left;
@@ -88,38 +93,48 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    private bool CheckDir(Vector3 dir)
+    {
+        // stop two or more enemies from going on the same tile
+        for (int i = 0; i < enemyManager.enemyMovements.Count; i++)
+        {
+            if (Vector3.Distance(enemyManager.enemyMovements[i], dir) < 0.01)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void MoveEnemy()
     {
         if (facingDirection == Vector2.right)
         {
-            transform.DOLocalMoveX(transform.position.x + (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            transform.DOLocalMoveX(transform.localPosition.x + (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            nextPos = new Vector2(transform.localPosition.x + (1 + (1 * roomManager.padding)), transform.localPosition.y);
         }
         else if (facingDirection == Vector2.left)
         {
-            transform.DOLocalMoveX(transform.position.x - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            transform.DOLocalMoveX(transform.localPosition.x - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            nextPos = new Vector2(transform.localPosition.x - (1 + (1 * roomManager.padding)), transform.localPosition.y);
         }
         else if (facingDirection == Vector2.up)
         {
-            transform.DOLocalMoveY(transform.position.y + (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            transform.DOLocalMoveY(transform.localPosition.y + (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            nextPos = new Vector2(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)));
         }
         else if (facingDirection == Vector2.down)
         {
-            transform.DOLocalMoveY(transform.position.y - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            transform.DOLocalMoveY(transform.localPosition.y - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
+            nextPos = new Vector2(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)));
         }
+        enemyManager.enemyMovements.Add(nextPos);
+        doneMoving = true;
     }
 
     public RoomManager GetEnemyRoom()
     {
         return roomManager;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // the player collides with a room tile
-        if (collision.GetComponent<EnemyMovement>() != null)
-        {
-            // here add something so that multiple enemies can run into the player at once, or instead make them move back (if we cant add group battles in time)
-            // (could also make the player fight each of the enemies one at a time)
-        }
     }
 }
