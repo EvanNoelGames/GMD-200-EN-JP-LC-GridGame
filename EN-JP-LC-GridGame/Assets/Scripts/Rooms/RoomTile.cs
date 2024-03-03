@@ -48,4 +48,12 @@ public class RoomTile : MonoBehaviour
             spriteRenderer.sprite = exitTile;
         }
     }
+
+    public void SetSprite(string type)
+    {
+        if (type == "exit")
+        {
+            spriteRenderer.sprite = exitTile;
+        }
+    }
 }

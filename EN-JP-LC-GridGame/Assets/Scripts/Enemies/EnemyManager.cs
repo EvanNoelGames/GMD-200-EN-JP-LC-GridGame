@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement playerMovement;
+    public PlayerMovement playerMovement;
     [SerializeField] private EnemyMovement enemy;
 
     private RoomManager playerRoom;

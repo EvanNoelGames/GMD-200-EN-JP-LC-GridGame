@@ -54,3 +54,8 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7248960676501710514, guid: 3b58a3106891c8b4081aa110d8ca71f6, type: 3}
   _tiles: []
   _enemies: []
+  cyclopes: {fileID: 11400000, guid: 25a2c6a66a30c7e44a730d9c4f815841, type: 2}
+  knight: {fileID: 11400000, guid: 770ee411826f5694c8596afe7aaf5cd9, type: 2}
+  serpent: {fileID: 11400000, guid: 183055cb1474b5b4c966ab69ccba2b51, type: 2}
+  skeleton: {fileID: 11400000, guid: 5a0b1b9b92c92ba4e8ca680a04d67131, type: 2}
+  zombie: {fileID: 11400000, guid: adcfd9e85644d72458ac5fa893c6fe5c, type: 2}

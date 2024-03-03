@@ -33,6 +33,12 @@ public class RoomManager : MonoBehaviour
     public List<RoomTile> _tiles;
     public List<EnemyMovement> _enemies;
 
+    [SerializeField] private EnemyData cyclopes;
+    [SerializeField] private EnemyData knight;
+    [SerializeField] private EnemyData serpent;
+    [SerializeField] private EnemyData skeleton;
+    [SerializeField] private EnemyData zombie;
+
     private void Awake()
     {
         transform.position = new Vector3(transform.position.x - 2.75f, transform.position.y - 2.75f, 0);
@@ -55,19 +61,15 @@ public class RoomManager : MonoBehaviour
 
                 if (roomType == Type.exit)
                 {
-                    enemyAmt = 0;
-                    tile.tileType = RoomTile.Type.exit;
-                    tile.UpdateSprite();
+                    tile.SetSprite("exit");
                 }
                 else if (roomType == Type.start)
                 {
-                    enemyAmt = 0;
                     tile.tileType = RoomTile.Type.start;
                     tile.UpdateSprite();
                 }
                 else if (roomType == Type.basic)
                 {
-                    enemyAmt = Random.Range(0, 3 + (gameManager.CurrentFloor / 5));
                     tile.tileType = RoomTile.Type.basic;
                     tile.UpdateSprite();
                 }
@@ -124,8 +126,19 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-
-        if (roomType == Type.money)
+        if (roomType == Type.exit)
+        {
+            enemyAmt = 1;
+        }
+        else if (roomType == Type.start)
+        {
+            enemyAmt = 0;
+        }
+        else if (roomType == Type.basic)
+        {
+            enemyAmt = Random.Range(0, 3 + (gameManager.CurrentFloor / 5));
+        }
+        else if (roomType == Type.money)
         {
             enemyAmt = Random.Range(1, 4 + (gameManager.CurrentFloor / 5));
             StartCoroutine(Co_SpawnChest());
@@ -148,6 +161,7 @@ public class RoomManager : MonoBehaviour
         int enemySpawnTile;
         int checkEnemySpawns = 0;
         EnemyMovement enemy = Instantiate(enemyPrefab, transform);
+        EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
         enemy.transform.SetParent(transform, false);
 
         while (!valid)
@@ -176,7 +190,70 @@ public class RoomManager : MonoBehaviour
             yield return new WaitForSeconds(0.00000001f);
         }
 
+        // flesh out how each enemy type is selected in the future, add a max enemies per floor variable etc
+        if (roomType == Type.exit)
+        {
+            enemyStats.aggressive = true;
+            enemyStats.data = cyclopes;
+        }
+        else
+        {
+            float selectedEnemy = Random.value;
+            if (roomType == Type.mystery)
+            {
+                if (Random.value > 0.8f)
+                {
+                    enemyStats.aggressive = true;
+                }
 
+                if (selectedEnemy > 0.5f)
+                {
+                    enemyStats.data = skeleton;
+                }
+                else if (selectedEnemy < 0.95f)
+                {
+                    enemyStats.data = zombie;
+                }
+                else
+                {
+                    enemyStats.data = knight;
+                }
+            }
+            else if (roomType == Type.money)
+            {
+                if (Random.value > 0.7f)
+                {
+                    enemyStats.aggressive = true;
+                }
+
+                if (selectedEnemy > 0.3f)
+                {
+                    enemyStats.data = skeleton;
+                }
+                else
+                {
+                    enemyStats.data = zombie;
+                }
+            }
+            else if (roomType == Type.basic)
+            {
+                if (Random.value > 0.95f)
+                {
+                    enemyStats.aggressive = true;
+                }
+
+                if (selectedEnemy > 0.1f)
+                {
+                    enemyStats.data = skeleton;
+                }
+                else
+                {
+                    enemyStats.data = zombie;
+                }
+            }
+        }
+
+        enemy.gameObject.name = $"Enemy_{enemyStats.data}";
         _enemies.Add(enemy);
     }
 

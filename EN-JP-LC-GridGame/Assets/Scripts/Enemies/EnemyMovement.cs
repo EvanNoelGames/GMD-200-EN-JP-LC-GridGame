@@ -33,6 +33,13 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
 
+    private EnemyStats enemyStats;
+
+    private void Awake()
+    {
+        enemyStats = gameObject.GetComponent<EnemyStats>();
+    }
+
     private void Update()
     {
         EnemyCollision();
@@ -59,31 +66,70 @@ public class EnemyMovement : MonoBehaviour
         while (cantMove)
         {
             yield return new WaitForSeconds(0.00000001f);
-            nextDirection = Random.Range(0, 4);
-            if (nextDirection == 0 && canMoveUp && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)), 0)))
+            // if the enemy is set to be agressive, follow the player
+            if (enemyStats.aggressive)
             {
-                cantMove = false;
-                facingDirection = Vector2.up;
+                if (Mathf.Abs(enemyManager.playerMovement.transform.position.x - transform.position.x) < 0.01)
+                {
+                    if (enemyManager.playerMovement.transform.position.y > transform.position.y && canMoveUp && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)), 0)))
+                    {
+                        cantMove = false;
+                        facingDirection = Vector2.up;
+                    }
+                    else if (enemyManager.playerMovement.transform.position.y < transform.position.y && canMoveDown && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)), 0)))
+                    {
+                        cantMove = false;
+                        facingDirection = Vector2.down;
+                    }
+                }
+                else
+                {
+                    if (enemyManager.playerMovement.transform.position.x > transform.position.x && canMoveRight && CheckDir(new Vector3(transform.localPosition.x + (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
+                    {
+                        cantMove = false;
+                        facingDirection = Vector2.right;
+                    }
+                    else if (enemyManager.playerMovement.transform.position.x < transform.position.x && canMoveLeft && CheckDir(new Vector3(transform.localPosition.x - (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
+                    {
+                        cantMove = false;
+                        facingDirection = Vector2.left;
+                    }
+                }
+
+                if (cantMove && canMoveUp && canMoveDown && canMoveRight && canMoveLeft)
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.zero;
+                }
             }
-            else if (nextDirection == 1 && canMoveRight && CheckDir(new Vector3(transform.localPosition.x + (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
+            else
             {
-                cantMove = false;
-                facingDirection = Vector2.right;
-            }
-            else if (nextDirection == 2 && canMoveDown && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)), 0)))
-            {
-                cantMove = false;
-                facingDirection = Vector2.down;
-            }
-            else if (nextDirection == 3 && canMoveLeft && CheckDir(new Vector3(transform.localPosition.x - (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
-            {
-                cantMove = false;
-                facingDirection = Vector2.left;
-            }
-            else if (cantMove && canMoveUp && canMoveDown && canMoveRight && canMoveLeft)
-            {
-                cantMove = false;
-                facingDirection = Vector2.zero;
+                nextDirection = Random.Range(0, 4);
+                if (nextDirection == 0 && canMoveUp && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)), 0)))
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.up;
+                }
+                else if (nextDirection == 1 && canMoveRight && CheckDir(new Vector3(transform.localPosition.x + (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.right;
+                }
+                else if (nextDirection == 2 && canMoveDown && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)), 0)))
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.down;
+                }
+                else if (nextDirection == 3 && canMoveLeft && CheckDir(new Vector3(transform.localPosition.x - (1 + (1 * roomManager.padding)), transform.localPosition.y, 0)))
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.left;
+                }
+                else if (cantMove && canMoveUp && canMoveDown && canMoveRight && canMoveLeft)
+                {
+                    cantMove = false;
+                    facingDirection = Vector2.zero;
+                }
             }
         }
 
