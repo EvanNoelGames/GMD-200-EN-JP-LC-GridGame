@@ -69,6 +69,7 @@ public class RoomGenerator : MonoBehaviour
         mapManager.SetRoomsList(rooms);
 
         doneLoading = true;
+
         playerMovement.gameObject.SetActive(true);
     }
 

@@ -27,4 +27,6 @@ public class ItemData : ScriptableObject
     public int damage;
     public int defence;
     public int healing;
+
+    public Sprite sprite;
 }

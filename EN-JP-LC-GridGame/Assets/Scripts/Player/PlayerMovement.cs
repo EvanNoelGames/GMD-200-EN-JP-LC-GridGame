@@ -38,8 +38,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private WorldCamera cam;
     [SerializeField] private MapManager mapManager;
 
+    private PlayerInventory playerInventory;
+
     private void Awake()
     {
+        playerInventory = GetComponent<PlayerInventory>();
         exitSpeed = moveSpeed * 2;
         defaultRoom = roomManager;
         // spawn point
@@ -210,6 +213,13 @@ public class PlayerMovement : MonoBehaviour
                     roomManager = colRoomManager;
                 }
                 mapManager.UpdatePlayerPosition();
+
+                if (colRoomTile.tileType == RoomTile.Type.chest)
+                {
+                    playerInventory.AddRandomItemFromChest();
+                    colRoomTile.tileType = RoomTile.Type.basic;
+                    colRoomTile.UpdateSprite();
+                }
             }
             // if it is an exit tile then set the roomManager back to its default state before we update it next movement
             else if (roomManager != defaultRoom)
