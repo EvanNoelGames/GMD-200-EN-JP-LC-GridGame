@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerInventorySlot : MonoBehaviour
 {
-    [SerializeField] private ItemData item;
-    public ItemData Item => item;
+    [SerializeField] public ItemData item;
 
     public bool equippedItem = false;
 
@@ -80,7 +79,15 @@ public class PlayerInventorySlot : MonoBehaviour
                 {
                     playerInventory.EquipSpecial(item);
                 }
+                else if (item.itemType == ItemData.ItemType.health)
+                {
+                    playerInventory.HealthItem(item);
+                }
             }
+        }
+        else
+        {
+            inventoryUI.itemText.text = "";
         }
     }
 

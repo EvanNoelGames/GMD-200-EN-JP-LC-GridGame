@@ -17,6 +17,8 @@ public class EnemyMovement : MonoBehaviour
 
     public bool doneMoving = false;
 
+    public bool endMovement = false;
+
     private Ease moveEaseType = Ease.InOutSine;
 
     private bool canMoveUp;
@@ -42,6 +44,11 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        if (endMovement)
+        {
+            transform.DOKill();
+            transform.localPosition = transform.localPosition;
+        }
         EnemyCollision();
     }
 

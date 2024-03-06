@@ -17,3 +17,4 @@ MonoBehaviour:
   enemyBaseDamage: 1
   enemyBaseHealth: 6
   statsMultiplier: 1.1
+  sprite: {fileID: 21300000, guid: a4ffc5f63e1fec04297494c90ab868fb, type: 3}

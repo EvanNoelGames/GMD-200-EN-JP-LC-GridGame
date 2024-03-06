@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 facingDirection;
     public Vector2 FacingDirection => facingDirection;
 
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 0.075f;
     private float exitSpeed;
 
     private Ease moveEaseType = Ease.InOutSine;
@@ -38,10 +38,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private WorldCamera cam;
     [SerializeField] private MapManager mapManager;
 
+    public EnemyStats enemyFighting;
+
+    [SerializeField] private GameManager gameManager;
+
     private PlayerInventory playerInventory;
 
-    private void Awake()
+    private void Start()
     {
+        Application.targetFrameRate = 300;
         playerInventory = GetComponent<PlayerInventory>();
         exitSpeed = moveSpeed * 2;
         defaultRoom = roomManager;
@@ -161,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Co_UnlockPlayer());
         }
-        else
+        else if (playerTurn)
         {
             StartCoroutine(Co_EnemyTurn());
         }
@@ -169,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Co_EnemyTurn()
     {
-        yield return new WaitForSeconds(moveSpeed);
+        yield return new WaitForSeconds(moveSpeed * Time.deltaTime);
         if (!playerMovingOverExit)
         {
             enemyManager.EnemyTurn();
@@ -244,6 +249,21 @@ public class PlayerMovement : MonoBehaviour
             {
                 roomGenerator.RemoveRooms();
             }
+        }
+
+        if (collision.GetComponent<EnemyMovement>() != null)
+        {
+            EnemyMovement colEnemy = collision.GetComponent<EnemyMovement>();
+            EnemyStats colEnemyStats = collision.GetComponent<EnemyStats>();
+
+            colEnemy.endMovement = true;
+
+            transform.DOTogglePause();
+
+            roomManager.RemoveEnemy(colEnemy);
+
+            enemyFighting = colEnemyStats;
+            gameManager.SwitchToBattle();
         }
     }
 

@@ -16,4 +16,6 @@ public class EnemyData : ScriptableObject
     public int enemyBaseDamage;
     public int enemyBaseHealth;
     public float statsMultiplier;
+
+    public Sprite sprite;
 }

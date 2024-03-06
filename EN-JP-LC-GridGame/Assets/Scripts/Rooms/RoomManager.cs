@@ -155,6 +155,11 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    public void RemoveEnemy(EnemyMovement removeEnemy)
+    {
+        _enemies.Remove(removeEnemy);
+    }
+
     IEnumerator Co_SpawnEnemy()
     {
         bool valid = false;
@@ -254,6 +259,7 @@ public class RoomManager : MonoBehaviour
         }
 
         enemy.gameObject.name = $"Enemy_{enemyStats.data}";
+        enemyStats.UpdateSprite();
         _enemies.Add(enemy);
     }
 
@@ -266,6 +272,7 @@ public class RoomManager : MonoBehaviour
             chest = Random.Range(0, _tiles.Count);
         }
         _tiles[chest].tileType = RoomTile.Type.chest;
+        _tiles[chest].gameObject.layer = 8;
         _tiles[chest].UpdateSprite();
     }
 }

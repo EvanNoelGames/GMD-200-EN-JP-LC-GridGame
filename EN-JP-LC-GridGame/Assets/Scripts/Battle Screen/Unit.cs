@@ -11,8 +11,14 @@ public class Unit : MonoBehaviour
     public int damage;
 
     public int maxHP;
-    public int currentHP; 
+    public int currentHP;
 
+    public Sprite sprite;
+
+    public void UpdateSprite(Sprite newSprite)
+    {
+        sprite = newSprite;
+    }
 
     public bool TakeDamage(int damage)
     {

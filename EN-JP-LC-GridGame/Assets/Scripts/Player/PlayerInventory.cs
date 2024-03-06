@@ -10,13 +10,20 @@ public class PlayerInventory : MonoBehaviour
     public ItemData equippedWeapon;
     public ItemData equippedArmor;
     public ItemData equippedSpecial;
+    public ItemData itemToEat;
 
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private ItemIndex itemIndex;
 
-    private void Awake()
+    public void StartingItems()
     {
         AddItem(itemIndex.copperSword);
+        AddItem(itemIndex.ironSword);
+        AddItem(itemIndex.goldSword);
+        AddItem(itemIndex.chestplate);
+        AddItem(itemIndex.shield);
+        AddItem(itemIndex.apple);
+        AddItem(itemIndex.applePie);
         EquipWeapon(items[0]);
     }
 
@@ -36,6 +43,12 @@ public class PlayerInventory : MonoBehaviour
     {
         equippedSpecial = newArmor;
         inventoryUI.UpdateInventory(3);
+    }
+
+    public void HealthItem(ItemData healthItem)
+    {
+        itemToEat = healthItem;
+        inventoryUI.UpdateInventory(4);
     }
 
     public void AddItem(ItemData item)
@@ -79,10 +92,33 @@ public class PlayerInventory : MonoBehaviour
                     Debug.Log("Nothing was found");
                 }
             }
-            else if (itemTypeSelection < 0.9f)
+            else if (itemTypeSelection < 0.6f)
             {
                 // armor
-                Debug.Log("Armor");
+                if (Random.value < 0.6)
+                {
+                    AddItem(itemIndex.shield);
+                    DisplayNewItem(itemIndex.shield);
+                }
+                else
+                {
+                    AddItem(itemIndex.chestplate);
+                    DisplayNewItem(itemIndex.chestplate);
+                }
+            }
+            else if (itemTypeSelection < 0.9f)
+            {
+                // food
+                if (Random.value < 0.6)
+                {
+                    AddItem(itemIndex.apple);
+                    DisplayNewItem(itemIndex.apple);
+                }
+                else
+                {
+                    AddItem(itemIndex.applePie);
+                    DisplayNewItem(itemIndex.applePie);
+                }
             }
             else
             {

@@ -17,3 +17,5 @@ MonoBehaviour:
   rarity: 0
   damage: 4
   defence: 0
+  healing: 0
+  sprite: {fileID: 21300000, guid: a6ae4c44bdce32a4888ffce397d3fbe3, type: 3}
