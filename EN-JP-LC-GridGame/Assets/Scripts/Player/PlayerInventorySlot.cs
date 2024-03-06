@@ -22,7 +22,10 @@ public class PlayerInventorySlot : MonoBehaviour
 
     public void UpdateSprite()
     {
-        spriteRenderer.sprite = item.sprite;
+        if (item != null)
+        {
+            spriteRenderer.sprite = item.sprite;
+        }
     }
 
     public void ClearItem()
@@ -65,34 +68,46 @@ public class PlayerInventorySlot : MonoBehaviour
                 inventoryUI.itemText.text = item.itemName + " (equipped)";
             }
 
-            if (Input.GetMouseButtonDown(0) && !equippedItem)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (item.itemType == ItemData.ItemType.weapon)
+                if (!equippedItem)
                 {
-                    playerInventory.EquipWeapon(item);
-                }
-                else if (item.itemType == ItemData.ItemType.armor)
-                {
-                    playerInventory.EquipArmor(item);
-                }
-                else if (item.itemType == ItemData.ItemType.special)
-                {
-                    playerInventory.EquipSpecial(item);
-                }
-                else if (item.itemType == ItemData.ItemType.health)
-                {
-                    playerInventory.HealthItem(item);
+                    if (item.itemType == ItemData.ItemType.weapon)
+                    {
+                        playerInventory.EquipWeapon(item);
+                        ClearItem();
+                    }
+                    else if (item.itemType == ItemData.ItemType.armor)
+                    {
+                        playerInventory.EquipArmor(item);
+                        ClearItem();
+                    }
+                    else if (item.itemType == ItemData.ItemType.special)
+                    {
+                        playerInventory.EquipSpecial(item);
+                        ClearItem();
+                    }
+                    else if (item.itemType == ItemData.ItemType.health)
+                    {
+                        playerInventory.HealthItem(item);
+                    }
                 }
             }
         }
         else
         {
-            inventoryUI.itemText.text = "";
+            if (item == null)
+            {
+                inventoryUI.itemText.text = "";
+            }
         }
     }
 
     private void OnMouseExit()
     {
-        inventoryUI.itemText.text = "";
+        if (item != null)
+        {
+            inventoryUI.itemText.text = "";
+        }
     }
 }

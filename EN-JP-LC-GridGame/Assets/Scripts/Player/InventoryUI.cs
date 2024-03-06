@@ -17,6 +17,11 @@ public class InventoryUI : MonoBehaviour
 
     private List<ItemData> itemData;
     public List<PlayerInventorySlot> playerInventorySlots;
+
+    public PlayerInventorySlot equippedWeaponSlot;
+    public PlayerInventorySlot equippedArmorSlot;
+    public PlayerInventorySlot equippedSpecialSlot;
+
     public List<PlayerInventorySlot> playerInventoryHolders;
 
     [SerializeField] private ItemData equippedWeapon;
@@ -29,10 +34,11 @@ public class InventoryUI : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    private Color equippedColor = Color.white;
-    private Color unequippedColor = new Color(1, 1, 1, 0.25f);
-
     [SerializeField] public TextMeshProUGUI itemText;
+    [SerializeField] public TextMeshProUGUI weaponText;
+    [SerializeField] public TextMeshProUGUI armorText;
+    [SerializeField] public TextMeshProUGUI specialText;
+    [SerializeField] public TextMeshProUGUI statsText;
     [SerializeField] public Camera cam;
 
     private void Awake()
@@ -43,6 +49,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
+        statsText.text = "DMG: " + equippedWeapon.damage + " DEFENCE: " + equippedArmor.defence;
         if (cam.isActiveAndEnabled)
         {
             transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, -5);
@@ -61,12 +68,21 @@ public class InventoryUI : MonoBehaviour
                 {
                     playerInventorySlots[i].Hide();
                 }
-                for (int i = 0; i < playerInventorySlots.Count; i++)
+                for (int i = 0; i < playerInventoryHolders.Count; i++)
                 {
                     playerInventoryHolders[i].Hide();
                 }
+
+                equippedWeaponSlot.Hide();
+                equippedArmorSlot.Hide();
+                equippedSpecialSlot.Hide();
+
                 showing = false;
                 itemText.enabled = false;
+                weaponText.enabled = false;
+                armorText.enabled = false;
+                specialText.enabled = false;
+                statsText.enabled = false;
             }
             else
             {
@@ -75,12 +91,21 @@ public class InventoryUI : MonoBehaviour
                 {
                     playerInventorySlots[i].Show();
                 }
-                for (int i = 0; i < playerInventorySlots.Count; i++)
+                for (int i = 0; i < playerInventoryHolders.Count; i++)
                 {
                     playerInventoryHolders[i].Show();
                 }
+
+                equippedWeaponSlot.Show();
+                equippedArmorSlot.Show();
+                equippedSpecialSlot.Show();
+
                 showing = true;
                 itemText.enabled = true;
+                weaponText.enabled = true;
+                armorText.enabled = true;
+                specialText.enabled = true;
+                statsText.enabled = true;
             }
         }
     }
@@ -106,6 +131,25 @@ public class InventoryUI : MonoBehaviour
             playerInventorySlots.Add(newInventorySlot);
         }
 
+        equippedWeaponSlot = Instantiate(inventorySlotPrefab, transform);
+        equippedWeaponSlot.transform.localPosition = new Vector3(7, 3, -2);
+        equippedWeaponSlot.name = "weapon_slot";
+        equippedWeaponSlot.playerInventory = playerInventory;
+        equippedWeaponSlot.inventoryUI = this;
+        equippedWeaponSlot.Hide();
+        equippedArmorSlot = Instantiate(inventorySlotPrefab, transform);
+        equippedArmorSlot.transform.localPosition = new Vector3(7, 0, -2);
+        equippedArmorSlot.name = "armor_slot";
+        equippedArmorSlot.playerInventory = playerInventory;
+        equippedArmorSlot.inventoryUI = this;
+        equippedArmorSlot.Hide();
+        equippedSpecialSlot = Instantiate(inventorySlotPrefab, transform);
+        equippedSpecialSlot.transform.localPosition = new Vector3(7, -3, -2);
+        equippedSpecialSlot.name = "special_slot";
+        equippedSpecialSlot.playerInventory = playerInventory;
+        equippedSpecialSlot.inventoryUI = this;
+        equippedSpecialSlot.Hide();
+
         for (int i = 0; i < gameManager.InventorySlots; i++)
         {
             PlayerInventorySlot newInventorySlot = Instantiate(inventorySlotPrefab, transform);
@@ -122,6 +166,27 @@ public class InventoryUI : MonoBehaviour
             newInventorySlot.Hide();
             playerInventoryHolders.Add(newInventorySlot);
         }
+
+        PlayerInventorySlot equippedWeaponSlotHolder = Instantiate(inventorySlotPrefab, transform);
+        equippedWeaponSlotHolder.transform.localPosition = new Vector3(7, 3, -2);
+        equippedWeaponSlotHolder.name = "weapon_slot_holder";
+        equippedWeaponSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
+        equippedWeaponSlotHolder.Hide();
+        PlayerInventorySlot equippedArmorSlotHolder = Instantiate(inventorySlotPrefab, transform);
+        equippedArmorSlotHolder.transform.localPosition = new Vector3(7, 0, -2);
+        equippedArmorSlotHolder.name = "armor_slot_holder";
+        equippedArmorSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
+        equippedArmorSlotHolder.Hide();
+        PlayerInventorySlot equippedSpecialSlotHolder = Instantiate(inventorySlotPrefab, transform);
+        equippedSpecialSlotHolder.transform.localPosition = new Vector3(7, -3, -2);
+        equippedSpecialSlotHolder.name = "special_slot_holder";
+        equippedSpecialSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
+        equippedSpecialSlotHolder.Hide();
+
+        playerInventoryHolders.Add(equippedWeaponSlotHolder);
+        playerInventoryHolders.Add(equippedArmorSlotHolder);
+        playerInventoryHolders.Add(equippedSpecialSlotHolder);
+
         playerInventory.StartingItems();
         doneLoading = true;
     }
@@ -139,51 +204,9 @@ public class InventoryUI : MonoBehaviour
 
         for (int i = 0; i < itemData.Count; i++)
         {
-            if (playerInventorySlots[i].equippedItem == true && playerInventorySlots[i].item.itemType == ItemData.ItemType.weapon && newEquipType == 1)
-            {
-                playerInventorySlots[i].equippedItem = false;
-            }
-            else if (playerInventorySlots[i].equippedItem == true && playerInventorySlots[i].item.itemType == ItemData.ItemType.armor && newEquipType == 2)
-            {
-                playerInventorySlots[i].equippedItem = false;
-            }
-            else if (playerInventorySlots[i].equippedItem == true && playerInventorySlots[i].item.itemType == ItemData.ItemType.special && newEquipType == 3)
-            {
-                playerInventorySlots[i].equippedItem = false;
-            }
-            if (playerInventorySlots[i].item != null)
-            {
-                if (playerInventorySlots[i].item.itemType != ItemData.ItemType.health)
-                {
-                    playerInventorySlots[i].spriteRenderer.color = unequippedColor;
-                }
-            }
-        }
-
-        equippedWeapon = playerInventory.equippedWeapon;
-        equippedArmor = playerInventory.equippedArmor;
-        equippedSpecial = playerInventory.equippedSpecial;
-
-        for (int i = 0; i < itemData.Count; i++)
-        {
             playerInventorySlots[i].SetItem(itemData[i]);
 
-            if (itemData[i] == equippedWeapon)
-            {
-                playerInventorySlots[i].spriteRenderer.color = equippedColor;
-                playerInventorySlots[i].equippedItem = true;
-            }
-            else if (itemData[i] == equippedArmor)
-            {
-                playerInventorySlots[i].spriteRenderer.color = equippedColor;
-                playerInventorySlots[i].equippedItem = true;
-            }
-            else if (itemData[i] == equippedSpecial)
-            {
-                playerInventorySlots[i].spriteRenderer.color = equippedColor;
-                playerInventorySlots[i].equippedItem = true;
-            }
-            else if (itemData[i] == playerInventory.itemToEat)
+            if (itemData[i] == playerInventory.itemToEat && newEquipType == 4)
             {
                 playerStats.playerHealth += playerInventory.itemToEat.healing;
                 playerInventory.items.Remove(playerInventory.itemToEat);
@@ -191,6 +214,20 @@ public class InventoryUI : MonoBehaviour
                 playerInventorySlots[i].ClearItem();
             }
         }
+
+        equippedWeapon = playerInventory.equippedWeapon;
+        equippedArmor = playerInventory.equippedArmor;
+        equippedSpecial = playerInventory.equippedSpecial;
+
+        equippedWeaponSlot.item = equippedWeapon;
+        equippedWeaponSlot.equippedItem = true;
+        equippedWeaponSlot.UpdateSprite();
+        equippedArmorSlot.item = equippedArmor;
+        equippedArmorSlot.equippedItem = true;
+        equippedArmorSlot.UpdateSprite();
+        equippedSpecialSlot.item = equippedSpecial;
+        equippedSpecialSlot.equippedItem = true;
+        equippedSpecialSlot.UpdateSprite();
 
         // update item defence
         if (equippedArmor != null)
@@ -205,6 +242,40 @@ public class InventoryUI : MonoBehaviour
             battleSystem.playerUnit.damage = equippedWeapon.damage;
             battleSystem.playerUnit.maxHP = playerStats.playerMaxHealth;
             battleSystem.playerUnit.currentHP = playerStats.playerHealth;
+        }
+
+        if (newEquipType == 1)
+        {
+            for (int i = 0; i < itemData.Count; i++)
+            {
+                if (itemData[i] == playerInventory.equippedWeapon)
+                {
+                    playerInventorySlots[i].ClearItem();
+                    playerInventory.items.Remove(itemData[i]);
+                }
+            }
+        }
+        else if (newEquipType == 2)
+        {
+            for (int i = 0; i < itemData.Count; i++)
+            {
+                if (itemData[i] == playerInventory.equippedArmor)
+                {
+                    playerInventorySlots[i].ClearItem();
+                    playerInventory.items.Remove(itemData[i]);
+                }
+            }
+        }
+        else if (newEquipType == 3)
+        {
+            for (int i = 0; i < itemData.Count; i++)
+            {
+                if (itemData[i] == playerInventory.equippedSpecial)
+                {
+                    playerInventorySlots[i].ClearItem();
+                    playerInventory.items.Remove(itemData[i]);
+                }
+            }
         }
 
         // move items down the line to fill blank slots

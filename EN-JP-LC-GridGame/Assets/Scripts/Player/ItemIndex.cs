@@ -8,7 +8,7 @@ public class ItemIndex : MonoBehaviour
     public ItemData copperSword;
     public ItemData goldSword;
     public ItemData ironSword;
-    public ItemData mace;
+    public ItemData darkSword;
 
     public ItemData compass;
 

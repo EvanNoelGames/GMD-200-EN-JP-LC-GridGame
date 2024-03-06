@@ -18,13 +18,11 @@ public class PlayerInventory : MonoBehaviour
     public void StartingItems()
     {
         AddItem(itemIndex.copperSword);
-        AddItem(itemIndex.ironSword);
-        AddItem(itemIndex.goldSword);
-        AddItem(itemIndex.chestplate);
         AddItem(itemIndex.shield);
         AddItem(itemIndex.apple);
         AddItem(itemIndex.applePie);
         EquipWeapon(items[0]);
+        EquipArmor(items[0]);
     }
 
     public void EquipWeapon(ItemData newWeapon)
@@ -75,40 +73,37 @@ public class PlayerInventory : MonoBehaviour
             if (itemTypeSelection < 0.5f)
             {
                 // weapon
+
                 float itemSelection = Random.value;
 
-                if (itemSelection < 0.5f && !CheckIfPlayerHasItem(itemIndex.ironSword))
+                if (CheckIfPlayerHasItem(itemIndex.copperSword))
                 {
-                    AddItem(itemIndex.ironSword);
+                    EquipWeapon(itemIndex.ironSword);
                     DisplayNewItem(itemIndex.ironSword);
                 }
-                else if (!CheckIfPlayerHasItem(itemIndex.goldSword))
+                else if (CheckIfPlayerHasItem(itemIndex.ironSword))
                 {
-                    AddItem(itemIndex.goldSword);
+                    EquipWeapon(itemIndex.goldSword);
                     DisplayNewItem(itemIndex.goldSword);
                 }
-                else
+
+                if (itemSelection >= 0.99f)
                 {
-                    Debug.Log("Nothing was found");
+                    EquipWeapon(itemIndex.darkSword);
+                    DisplayNewItem(itemIndex.darkSword);
                 }
             }
             else if (itemTypeSelection < 0.6f)
             {
                 // armor
-                if (Random.value < 0.6)
-                {
-                    AddItem(itemIndex.shield);
-                    DisplayNewItem(itemIndex.shield);
-                }
-                else
-                {
-                    AddItem(itemIndex.chestplate);
-                    DisplayNewItem(itemIndex.chestplate);
-                }
+
+                EquipArmor(itemIndex.chestplate);
+                DisplayNewItem(itemIndex.chestplate);
             }
             else if (itemTypeSelection < 0.9f)
             {
                 // food
+
                 if (Random.value < 0.6)
                 {
                     AddItem(itemIndex.apple);
@@ -141,6 +136,18 @@ public class PlayerInventory : MonoBehaviour
             {
                 return true;
             }
+        }
+        if (equippedWeapon == itemCheck)
+        {
+            return true;
+        }
+        if (equippedArmor == itemCheck)
+        {
+            return true;
+        }
+        if (equippedSpecial == itemCheck)
+        {
+            return true;
         }
         return false;
     }
