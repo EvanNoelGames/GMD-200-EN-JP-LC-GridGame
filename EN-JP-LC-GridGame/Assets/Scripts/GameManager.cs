@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     private int currentFloor = 1;
+    public int numSteps;
     private int inventorySlots = 8;
     public int CurrentFloor => currentFloor;
     public int InventorySlots => inventorySlots;

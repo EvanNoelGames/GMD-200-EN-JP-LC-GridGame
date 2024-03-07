@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public EnemyStats enemyFighting;
 
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private TextMeshProUGUI stepCounter;
 
     private PlayerInventory playerInventory;
 
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        stepCounter.text = "STEPS LEFT: " + gameManager.numSteps;
         PlayerCollision();
 
         if (!lockPlayer)
@@ -168,6 +170,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (playerTurn)
         {
+            if (roomManager.roomType != RoomManager.Type.exit)
+            {
+                gameManager.numSteps -= 1;
+            }
             StartCoroutine(Co_EnemyTurn());
         }
     }
