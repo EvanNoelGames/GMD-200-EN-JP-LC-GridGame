@@ -1036,6 +1036,8 @@ MonoBehaviour:
   itemToEat: {fileID: 0}
   inventoryUI: {fileID: 294494453}
   itemIndex: {fileID: 948409054}
+  newItemPrefab: {fileID: 6420893174453581537, guid: 975d8bfbed8c6c64b8822e1c3254a96f, type: 3}
+  inventoryCanvas: {fileID: 928737497}
 --- !u!114 &218226718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2366,7 +2368,7 @@ MonoBehaviour:
   copperSword: {fileID: 11400000, guid: e9e6387f3593fcb4f9b32c75d0453916, type: 2}
   goldSword: {fileID: 11400000, guid: d0378653014094544a7d61259cfa3bb9, type: 2}
   ironSword: {fileID: 11400000, guid: 0162ca146dbbb4045910200da4e8085a, type: 2}
-  mace: {fileID: 11400000, guid: de73d2ed258c9b443a0f90421c04863b, type: 2}
+  darkSword: {fileID: 0}
   compass: {fileID: 11400000, guid: 2b84a865c216eb74d8d1b2b4b91976da, type: 2}
   apple: {fileID: 11400000, guid: d4b03312e4e5161439cff19f1557f24c, type: 2}
   applePie: {fileID: 11400000, guid: d49b76b257db1ac488954b6929f4a179, type: 2}

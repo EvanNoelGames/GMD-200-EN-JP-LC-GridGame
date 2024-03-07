@@ -168,17 +168,17 @@ public class InventoryUI : MonoBehaviour
         }
 
         PlayerInventorySlot equippedWeaponSlotHolder = Instantiate(inventorySlotPrefab, transform);
-        equippedWeaponSlotHolder.transform.localPosition = new Vector3(7, 3, -2);
+        equippedWeaponSlotHolder.transform.localPosition = new Vector3(7, 3, -1);
         equippedWeaponSlotHolder.name = "weapon_slot_holder";
         equippedWeaponSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
         equippedWeaponSlotHolder.Hide();
         PlayerInventorySlot equippedArmorSlotHolder = Instantiate(inventorySlotPrefab, transform);
-        equippedArmorSlotHolder.transform.localPosition = new Vector3(7, 0, -2);
+        equippedArmorSlotHolder.transform.localPosition = new Vector3(7, 0, -1);
         equippedArmorSlotHolder.name = "armor_slot_holder";
         equippedArmorSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
         equippedArmorSlotHolder.Hide();
         PlayerInventorySlot equippedSpecialSlotHolder = Instantiate(inventorySlotPrefab, transform);
-        equippedSpecialSlotHolder.transform.localPosition = new Vector3(7, -3, -2);
+        equippedSpecialSlotHolder.transform.localPosition = new Vector3(7, -3, -1);
         equippedSpecialSlotHolder.name = "special_slot_holder";
         equippedSpecialSlotHolder.GetComponent<BoxCollider2D>().enabled = false;
         equippedSpecialSlotHolder.Hide();

@@ -18,4 +18,4 @@ MonoBehaviour:
   damage: 9
   defence: 0
   healing: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 4bdc26c4edc1dad4fb64f28d0f3f6627, type: 3}

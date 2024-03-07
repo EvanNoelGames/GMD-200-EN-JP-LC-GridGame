@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -14,6 +15,9 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private ItemIndex itemIndex;
+
+    [SerializeField] private NewItem newItemPrefab;
+    [SerializeField] private Canvas inventoryCanvas;
 
     public void StartingItems()
     {
@@ -125,7 +129,8 @@ public class PlayerInventory : MonoBehaviour
 
     private void DisplayNewItem(ItemData newItem)
     {
-
+        NewItem newItemToDisplay = Instantiate(newItemPrefab, inventoryCanvas.transform);
+        newItemToDisplay.GetComponent<TextMeshProUGUI>().text = "Got " + newItem.name + "!";
     }
 
     private bool CheckIfPlayerHasItem(ItemData itemCheck)
