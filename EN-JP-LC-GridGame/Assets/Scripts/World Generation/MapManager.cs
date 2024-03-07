@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class MapManager : MonoBehaviour
 {
@@ -240,6 +241,20 @@ public class MapManager : MonoBehaviour
     public void SetRoomsList(List<RoomManager> rooms)
     {
         roomList = rooms;
+    }
+
+    public bool NoRoomInDirection(Vector2 dir)
+    {
+        RoomManager rm = player.GetPlayerRoom();
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i] == rm)
+            {
+                return NoTilesExistAtPosition(tiles[i].gridCoords + dir);
+            }
+        }
+        return false;
     }
 
     public void UpdatePlayerPosition()

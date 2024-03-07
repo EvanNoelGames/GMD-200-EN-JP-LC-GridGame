@@ -174,6 +174,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 gameManager.numSteps -= 1;
             }
+            if (gameManager.numSteps <= 0)
+            {
+                gameManager.GameOver();
+            }
             StartCoroutine(Co_EnemyTurn());
         }
     }
@@ -205,6 +209,49 @@ public class PlayerMovement : MonoBehaviour
 
         lockPlayer = false;
         playerMovingOverExit = false;
+    }
+
+    public string GetExitDistance()
+    {
+        Vector3 exitLocation = roomGenerator.GetExitLocation();
+        float difference = 3.3f;
+        if ((Mathf.Abs(exitLocation.y - transform.position.y + difference)) <= ((roomGenerator.roomPrefab.numRows / 2)) && (Mathf.Abs(exitLocation.x - transform.position.x + difference) <= (roomGenerator.roomPrefab.numColumns / 2)))
+        {
+            return "";
+        }
+        if (exitLocation.y > transform.position.y && ((Mathf.Abs(exitLocation.x - transform.position.x + 2.2f)) <= (roomGenerator.roomPrefab.numColumns / 2) + difference))
+        {
+            return "NORTH";
+        }
+        else if ((Mathf.Abs(exitLocation.y - transform.position.y + 2.2f)) <= (roomGenerator.roomPrefab.numRows / 2) + difference && exitLocation.x > transform.position.x)
+        {
+            return "EAST";
+        }
+        else if (exitLocation.y < transform.position.y && ((Mathf.Abs(exitLocation.x - transform.position.x + 2.2f)) <= (roomGenerator.roomPrefab.numColumns / 2) + difference))
+        {
+            return "SOUTH";
+        }
+        else if ((Mathf.Abs(exitLocation.y - transform.position.y + 2.2f) <= (roomGenerator.roomPrefab.numRows / 2) + difference) && exitLocation.x < transform.position.x)
+        {
+            return "WEST";
+        }
+        else if (exitLocation.y > transform.position.y && exitLocation.x > transform.position.x)
+        {
+            return "NORTH EAST";
+        }
+        else if (exitLocation.y > transform.position.y && exitLocation.x < transform.position.x)
+        {
+            return "NORTH WEST";
+        }
+        else if (exitLocation.y < transform.position.y && exitLocation.x > transform.position.x)
+        {
+            return "SOUTH EAST";
+        }
+        else if (exitLocation.y < transform.position.y && exitLocation.x < transform.position.x)
+        {
+            return "SOUTH WEST";
+        }
+        return "";
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -68,7 +68,7 @@ public class PlayerInventorySlot : MonoBehaviour
                 inventoryUI.itemText.text = item.itemName + " (equipped)";
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && spriteRenderer.enabled)
             {
                 if (!equippedItem)
                 {

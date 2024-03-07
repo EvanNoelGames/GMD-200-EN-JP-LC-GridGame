@@ -17,14 +17,36 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private ItemIndex itemIndex;
 
     [SerializeField] private NewItem newItemPrefab;
+    [SerializeField] private TextMeshProUGUI exitStepCounter;
     [SerializeField] private Canvas inventoryCanvas;
+
+    [SerializeField] private PlayerMovement playerMovement;
+
+    private void Awake()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+    }
+
+    private void Update()
+    {
+        if (equippedSpecial != null)
+        {
+            if (equippedSpecial.itemName == "Compass" && playerMovement.RoomManager.roomType != RoomManager.Type.exit)
+            {
+                exitStepCounter.text = "EXIT DIRECTION: " + playerMovement.GetExitDistance();
+            }
+            else
+            {
+                exitStepCounter.text = "";
+            }
+        }
+    }
 
     public void StartingItems()
     {
         AddItem(itemIndex.copperSword);
         AddItem(itemIndex.shield);
         AddItem(itemIndex.apple);
-        AddItem(itemIndex.applePie);
         EquipWeapon(items[0]);
         EquipArmor(items[0]);
     }
@@ -41,9 +63,18 @@ public class PlayerInventory : MonoBehaviour
         inventoryUI.UpdateInventory(2);
     }
 
-    public void EquipSpecial(ItemData newArmor)
+    public void EquipSpecial(ItemData newSpecial)
     {
-        equippedSpecial = newArmor;
+        equippedSpecial = newSpecial;
+        if (equippedSpecial.itemName == "Compass")
+        {
+            exitStepCounter.enabled = true;
+        }
+        else
+        {
+            exitStepCounter.enabled = false;
+        }
+
         inventoryUI.UpdateInventory(3);
     }
 
@@ -74,7 +105,8 @@ public class PlayerInventory : MonoBehaviour
         else
         {
             float itemTypeSelection = Random.value;
-            if (itemTypeSelection < 0.5f)
+
+            if (itemTypeSelection < 0.5f && equippedWeapon.name != "Dark Sword")
             {
                 // weapon
 
@@ -90,14 +122,13 @@ public class PlayerInventory : MonoBehaviour
                     EquipWeapon(itemIndex.goldSword);
                     DisplayNewItem(itemIndex.goldSword);
                 }
-
-                if (itemSelection >= 0.99f)
+                else if (itemSelection >= 0.7f)
                 {
                     EquipWeapon(itemIndex.darkSword);
                     DisplayNewItem(itemIndex.darkSword);
                 }
             }
-            else if (itemTypeSelection < 0.6f)
+            else if (itemTypeSelection < 0.6f && equippedArmor.name != "Chestplate")
             {
                 // armor
 
@@ -119,10 +150,16 @@ public class PlayerInventory : MonoBehaviour
                     DisplayNewItem(itemIndex.applePie);
                 }
             }
-            else
+            else if (!CheckIfPlayerHasItem(itemIndex.compass))
             {
                 // special
-                Debug.Log("Special");
+
+                AddItem(itemIndex.compass);
+                DisplayNewItem(itemIndex.compass);
+            }
+            else
+            {
+                // give player XP
             }
         }
     }

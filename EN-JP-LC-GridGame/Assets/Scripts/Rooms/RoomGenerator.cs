@@ -7,7 +7,7 @@ using UnityEngine;
 public class RoomGenerator : MonoBehaviour
 {
     public MapManager mapManager;
-    [SerializeField] RoomManager roomPrefab;
+    [SerializeField] public RoomManager roomPrefab;
     [SerializeField] GameManager gameManager;
     [SerializeField] RoomTile exitTilePrefab;
     [SerializeField] PlayerMovement playerMovement;
@@ -203,5 +203,10 @@ public class RoomGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector3 GetExitLocation()
+    {
+        return rooms[rooms.Count - 1].transform.position;
     }
 }
