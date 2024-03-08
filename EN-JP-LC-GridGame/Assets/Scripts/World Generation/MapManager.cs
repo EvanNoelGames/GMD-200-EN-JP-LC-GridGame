@@ -41,6 +41,22 @@ public class MapManager : MonoBehaviour
         InitGrid();
     }
 
+    public void ResetMap()
+    {
+        tiles.Clear();
+        roomList.Clear();
+
+        foreach (Transform child in transform)
+        {
+            if (child.name != "player_position_on_map")
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        InitGrid();
+        player.ResetPlayerPosition();
+    }
+
     public void InitGrid()
     {
         numRooms = (int)(gameManager.CurrentFloor * 1.5f + Random.Range(4, 6));

@@ -24,6 +24,16 @@ public class RoomGenerator : MonoBehaviour
         padding = roomPrefab.padding;
     }
 
+    public void ResetRooms()
+    {
+        rooms.Clear();
+
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     public void GenerateRooms()
     {
         for (int i = 0; i < mapManager.tiles.Count; i++)
@@ -71,6 +81,7 @@ public class RoomGenerator : MonoBehaviour
         doneLoading = true;
 
         playerMovement.gameObject.SetActive(true);
+        playerMovement.lockPlayer = false;
     }
 
     private void AddExits(RoomManager room)

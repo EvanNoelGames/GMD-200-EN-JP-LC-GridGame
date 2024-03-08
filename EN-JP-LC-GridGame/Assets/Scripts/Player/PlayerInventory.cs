@@ -47,6 +47,7 @@ public class PlayerInventory : MonoBehaviour
         AddItem(itemIndex.copperSword);
         AddItem(itemIndex.shield);
         AddItem(itemIndex.apple);
+        AddItem(itemIndex.applePie);
         EquipWeapon(items[0]);
         EquipArmor(items[0]);
     }

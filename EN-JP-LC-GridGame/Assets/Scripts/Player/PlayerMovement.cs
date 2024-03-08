@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 input;
 
     private bool playerTurn = true;
-    private bool lockPlayer = false;
+    public bool lockPlayer = false;
     private bool playerMoving = false;
     private bool playerMovingOverExit = false;
 
@@ -52,6 +52,12 @@ public class PlayerMovement : MonoBehaviour
         exitSpeed = moveSpeed * 2;
         defaultRoom = roomManager;
         // spawn point
+        transform.position = new Vector3((roomManager.numColumns / 2) + ((roomManager.numColumns / 2) * roomManager.padding), (roomManager.numRows / 2) + ((roomManager.numRows / 2) * roomManager.padding), -3);
+        cam.SetUpCam();
+    }
+
+    public void ResetPlayerPosition()
+    {
         transform.position = new Vector3((roomManager.numColumns / 2) + ((roomManager.numColumns / 2) * roomManager.padding), (roomManager.numRows / 2) + ((roomManager.numRows / 2) * roomManager.padding), -3);
         cam.SetUpCam();
     }
@@ -143,9 +149,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        playerMoving = true;
+        if (playerMoving)
+        {
+            transform.DOKill(true);
+        }
 
-        transform.DOKill(true);
+        playerMoving = true;
 
         if (facingDirection == Vector2.right)
         {

@@ -13,6 +13,7 @@ public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    private string enemyType;
 
     public List<GameObject> units;
 
@@ -32,7 +33,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameManager gameManager;
 
-    public BattleState state; 
+    public BattleState state;
 
     public void ResetBattleScreen()
     {
@@ -63,6 +64,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyUnit.unitName = playerMovement.enemyFighting.data.enemyName;
         enemyUnit.damage = playerMovement.enemyFighting.data.enemyBaseDamage;
+        enemyType = playerMovement.enemyFighting.data.enemyType.ToString();
 
         enemyUnit.UpdateSprite(playerMovement.enemyFighting.data.sprite);
         enemyGO.GetComponent<Image>().sprite = enemyUnit.sprite;
@@ -147,7 +149,8 @@ public class BattleSystem : MonoBehaviour
             dialougeText.text = "You won the Battle!";
             playerStats.playerHealth = playerUnit.currentHP;
             playerStats.playerLevel = playerUnit.unitLevel;
-            gameManager.SwitchToWorld();
+
+            gameManager.SwitchToWorld(enemyType == "boss");
         }
         else if (state == BattleState.LOST)
         {
