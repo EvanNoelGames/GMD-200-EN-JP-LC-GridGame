@@ -49,7 +49,15 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        statsText.text = "DMG: " + equippedWeapon.damage + " DEFENCE: " + equippedArmor.defence;
+        if (equippedArmor != null)
+        {
+            statsText.text = "DMG: " + equippedWeapon.damage + " DEFENCE: " + equippedArmor.defence;
+        }
+        else
+        {
+            statsText.text = "DMG: " + equippedWeapon.damage;
+        }
+
         if (cam.isActiveAndEnabled)
         {
             transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, -5);
