@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Cyclopes
   enemyType: 2
-  enemyBaseDamage: 5
-  enemyBaseHealth: 15
+  enemyBaseDamage: 2
+  enemyBaseHealth: 8
   statsMultiplier: 1
   sprite: {fileID: 21300000, guid: c853c9d78de323f42b8690f0fe247724, type: 3}

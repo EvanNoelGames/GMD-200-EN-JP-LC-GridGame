@@ -981,6 +981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9489c5e7d43678542976105ea10e70cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockPlayer: 0
   moveSpeed: 0.1
   roomManager: {fileID: 9163791153240804128, guid: 97ae55d5e4441f542854eb6f4c9cda44, type: 3}
   roomGenerator: {fileID: 1903001992}
@@ -1040,6 +1041,7 @@ MonoBehaviour:
   newItemPrefab: {fileID: 6420893174453581537, guid: 975d8bfbed8c6c64b8822e1c3254a96f, type: 3}
   exitStepCounter: {fileID: 1352458453}
   inventoryCanvas: {fileID: 928737497}
+  playerMovement: {fileID: 0}
 --- !u!114 &218226718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,8 +1055,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLevel: 1
-  playerHealth: 10
-  playerMaxHealth: 12
+  playerHealth: 100
+  playerMaxHealth: 120
 --- !u!1 &244884142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,7 +2372,7 @@ MonoBehaviour:
   copperSword: {fileID: 11400000, guid: e9e6387f3593fcb4f9b32c75d0453916, type: 2}
   goldSword: {fileID: 11400000, guid: d0378653014094544a7d61259cfa3bb9, type: 2}
   ironSword: {fileID: 11400000, guid: 0162ca146dbbb4045910200da4e8085a, type: 2}
-  darkSword: {fileID: 0}
+  darkSword: {fileID: 11400000, guid: de73d2ed258c9b443a0f90421c04863b, type: 2}
   compass: {fileID: 11400000, guid: 2b84a865c216eb74d8d1b2b4b91976da, type: 2}
   apple: {fileID: 11400000, guid: d4b03312e4e5161439cff19f1557f24c, type: 2}
   applePie: {fileID: 11400000, guid: d49b76b257db1ac488954b6929f4a179, type: 2}
@@ -2650,6 +2652,8 @@ MonoBehaviour:
   world: {fileID: 1497834378}
   battleScreen: {fileID: 1067738675}
   battleSystem: {fileID: 1197078376}
+  mapManager: {fileID: 168896239}
+  roomGenerator: {fileID: 1903001992}
   playerMovement: {fileID: 218226715}
 --- !u!4 &1045652747
 Transform:

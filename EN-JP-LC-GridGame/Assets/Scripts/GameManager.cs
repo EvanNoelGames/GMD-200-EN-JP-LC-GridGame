@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject battleScreen;
     [SerializeField] private BattleSystem battleSystem;
 
+    [SerializeField] private MapManager mapManager;
+    [SerializeField] private RoomGenerator roomGenerator;
+
     [SerializeField] private PlayerMovement playerMovement;
 
     public void SwitchToBattle()
@@ -36,17 +39,23 @@ public class GameManager : MonoBehaviour
         world.SetActive(false);
     }
 
-    public void SwitchToWorld()
+    public void SwitchToWorld(bool reset)
     {
-        StartCoroutine(Co_SwitchToWorld());
+        StartCoroutine(Co_SwitchToWorld(reset));
     }
 
-    IEnumerator Co_SwitchToWorld()
+    IEnumerator Co_SwitchToWorld(bool reset)
     {
         yield return new WaitForSeconds(delay);
         world.SetActive(true);
         playerMovement.transform.DOTogglePause();
         battleScreen.SetActive(false);
+        if (reset)
+        {
+            playerMovement.lockPlayer = true;
+            numSteps = 0;
+            NextFloor();
+        }
     }
 
     public void GameOver()
@@ -58,6 +67,14 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void NextFloor()
+    {
+        currentFloor++;
+        playerMovement.gameObject.SetActive(false);
+        roomGenerator.ResetRooms();
+        mapManager.ResetMap();
     }
 
 
