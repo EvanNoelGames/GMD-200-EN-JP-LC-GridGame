@@ -8,7 +8,8 @@ public class BattleHud : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI levelText;
-    public Slider hpSlider; 
+    public Slider hpSlider;
+    public Image healthBar;
 
     public void SetHud(Unit unit)
     {
