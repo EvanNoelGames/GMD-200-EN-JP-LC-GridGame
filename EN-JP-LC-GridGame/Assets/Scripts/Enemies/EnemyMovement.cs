@@ -55,7 +55,10 @@ public class EnemyMovement : MonoBehaviour
 
     public void EnemyTurn()
     {
-        StartCoroutine(Co_GetNextEnemyDirection());
+        if (enemyManager.playerMovement.enemyFighting == null)
+        {
+            StartCoroutine(Co_GetNextEnemyDirection());
+        }
     }
 
     private void EnemyCollision()

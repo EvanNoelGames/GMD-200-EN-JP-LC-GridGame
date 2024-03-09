@@ -319,6 +319,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 roomGenerator.RemoveRooms();
             }
+            else
+            {
+                roomGenerator.HideRooms();
+            }
         }
 
         if (collision.GetComponent<EnemyMovement>() != null)

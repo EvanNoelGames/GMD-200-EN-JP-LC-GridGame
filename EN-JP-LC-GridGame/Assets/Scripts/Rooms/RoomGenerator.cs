@@ -193,6 +193,15 @@ public class RoomGenerator : MonoBehaviour
         return true;
     }
 
+    public void HideRooms()
+    {
+        // hide every room except for the one we're in
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            
+        }
+    }
+
     public void RemoveRooms()
     {
         // remove every room except for the exit room
