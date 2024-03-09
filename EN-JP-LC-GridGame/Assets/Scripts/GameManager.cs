@@ -10,10 +10,12 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     private int currentFloor = 1;
-    public int numSteps;
     private int inventorySlots = 8;
+
     public int CurrentFloor => currentFloor;
     public int InventorySlots => inventorySlots;
+
+    public int numSteps = 0;
 
     private float delay = 0.25f;
 

@@ -27,6 +27,8 @@ public class RoomManager : MonoBehaviour
 
     public Type roomType;
 
+    bool nextEnemy = true;
+
     [SerializeField] private RoomTile tilePrefab;
     [SerializeField] public GameManager gameManager;
     [SerializeField] private EnemyMovement enemyPrefab;
@@ -78,48 +80,48 @@ public class RoomManager : MonoBehaviour
                 // set which tiles chests and enemies cannot spawn on
                 if (numRows % 2 == 0 && numColumns % 2 == 0)
                 {
-                    if (x == numColumns / 2 || x == (numColumns / 2) - 1)
+                    if ((x == numColumns / 2 || x == (numColumns / 2) - 1) && (y == numRows - 1 || y == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
 
-                    if (y == numRows / 2 || y == (numRows / 2) - 1)
+                    if ((y == numRows / 2 || y == (numRows / 2) - 1) && (x == numColumns - 1 || x == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
                 }
                 else if (numRows % 2 == 0 && numColumns % 2 != 0)
                 {
-                    if (x == numColumns / 2)
+                    if ((x == numColumns / 2) && (y == numRows - 1 || y == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
 
-                    if (y == numRows / 2 || y == (numRows / 2) - 1)
+                    if ((y == numRows / 2 || y == (numRows / 2) - 1) && (x == numColumns - 1 || x == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
                 }
                 else if (numRows % 2 != 0 && numColumns % 2 == 0)
                 {
-                    if (x == numColumns / 2 || x == (numColumns / 2) - 1)
+                    if ((x == numColumns / 2 || x == (numColumns / 2) - 1) && (y == numRows - 1 || y == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
 
-                    if (y == numRows / 2)
+                    if ((y == numRows / 2) && (x == numColumns - 1 || x == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
                 }
                 else if (numRows % 2 != 0 && numColumns % 2 != 0)
                 {
-                    if (x == numColumns / 2)
+                    if ((x == numColumns / 2) && (y == numRows - 1 || y == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
 
-                    if (y == numRows / 2)
+                    if ((y == numRows / 2) && (x == numColumns - 1 || x == 0))
                     {
                         tile.gameObject.tag = "Don't Spawn";
                     }
@@ -150,10 +152,7 @@ public class RoomManager : MonoBehaviour
         }
 
         // spawn enemies
-        for (int i = 0; i < enemyAmt; i++)
-        {
-            StartCoroutine(Co_SpawnEnemy());
-        }
+        StartCoroutine(Co_SpawnEnemies());
     }
 
     public void RemoveEnemy(EnemyMovement removeEnemy)
@@ -161,8 +160,21 @@ public class RoomManager : MonoBehaviour
         _enemies.Remove(removeEnemy);
     }
 
+    IEnumerator Co_SpawnEnemies()
+    {
+        for (int i = 0; i < enemyAmt; i++)
+        {
+            StartCoroutine(Co_SpawnEnemy());
+            while(!nextEnemy)
+            {
+                yield return null;
+            }
+        }
+    }
+
     IEnumerator Co_SpawnEnemy()
     {
+        nextEnemy = false;
         bool valid = false;
         int enemySpawnTile;
         int checkEnemySpawns = 0;
@@ -182,7 +194,7 @@ public class RoomManager : MonoBehaviour
                 // don't spawn one enemy on top of another
                 for (int j = 0; j < _enemies.Count; j++)
                 {
-                    if (_enemies[j].transform.position != enemy.transform.position)
+                    if (Vector2.Distance(_enemies[j].transform.localPosition, enemy.transform.localPosition) > 0.5f)
                     {
                         checkEnemySpawns++;
                     }
@@ -192,11 +204,14 @@ public class RoomManager : MonoBehaviour
                 {
                     valid = true;
                 }
+                else
+                {
+                    valid = false;
+                }
             }
-            yield return new WaitForSeconds(0.00000001f);
+            yield return null;
         }
 
-        // flesh out how each enemy type is selected in the future, add a max enemies per floor variable etc
         if (roomType == Type.exit)
         {
             enemyStats.aggressive = true;
@@ -262,6 +277,7 @@ public class RoomManager : MonoBehaviour
         enemy.gameObject.name = $"Enemy_{enemyStats.data}";
         enemyStats.UpdateSprite();
         _enemies.Add(enemy);
+        nextEnemy = true;
     }
 
     IEnumerator Co_SpawnChest()

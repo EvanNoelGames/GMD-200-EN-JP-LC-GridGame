@@ -29,6 +29,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private RoomManager roomManager;
     private RoomManager defaultRoom;
     public RoomManager RoomManager => roomManager;
+
     [SerializeField] private RoomGenerator roomGenerator;
 
     [SerializeField] public EnemyManager enemyManager;
@@ -151,7 +152,7 @@ public class EnemyMovement : MonoBehaviour
         // stop two or more enemies from going on the same tile
         for (int i = 0; i < enemyManager.enemyMovements.Count; i++)
         {
-            if (Vector3.Distance(enemyManager.enemyMovements[i], dir) < 0.01)
+            if (Vector3.Distance(enemyManager.enemyMovements[i], dir) < 0.1f)
             {
                 return false;
             }
