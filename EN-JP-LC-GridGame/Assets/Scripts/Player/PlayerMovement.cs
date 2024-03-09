@@ -51,13 +51,13 @@ public class PlayerMovement : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         exitSpeed = moveSpeed * 2;
         defaultRoom = roomManager;
-        // spawn point
-        transform.position = new Vector3((roomManager.numColumns / 2) + ((roomManager.numColumns / 2) * roomManager.padding), (roomManager.numRows / 2) + ((roomManager.numRows / 2) * roomManager.padding), -3);
-        cam.SetUpCam();
+
+        ResetPlayerPosition();
     }
 
     public void ResetPlayerPosition()
     {
+        // spawn point
         transform.position = new Vector3((roomManager.numColumns / 2) + ((roomManager.numColumns / 2) * roomManager.padding), (roomManager.numRows / 2) + ((roomManager.numRows / 2) * roomManager.padding), -3);
         cam.SetUpCam();
     }
@@ -187,16 +187,24 @@ public class PlayerMovement : MonoBehaviour
             {
                 gameManager.GameOver();
             }
-            StartCoroutine(Co_EnemyTurn());
+            if (!playerMovingOverExit)
+            {
+                StartCoroutine(Co_EnemyTurn());
+            }
         }
     }
 
     IEnumerator Co_EnemyTurn()
     {
-        yield return new WaitForSeconds(moveSpeed * Time.deltaTime);
+        playerTurn = false;
+        yield return new WaitForSeconds(moveSpeed * 2);
         if (!playerMovingOverExit)
         {
             enemyManager.EnemyTurn();
+        }
+        else
+        {
+            playerTurn = true;
         }
     }
 
