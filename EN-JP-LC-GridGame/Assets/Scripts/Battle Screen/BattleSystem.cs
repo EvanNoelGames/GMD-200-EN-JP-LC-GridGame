@@ -32,6 +32,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private EnemyManager enemyManager;
 
     public BattleState state;
 
@@ -149,6 +150,8 @@ public class BattleSystem : MonoBehaviour
             dialougeText.text = "You won the Battle!";
             playerStats.playerHealth = playerUnit.currentHP;
             playerStats.playerLevel = playerUnit.unitLevel;
+            playerMovement.lockPlayer = false;
+            playerMovement.enemyFighting = null;
 
             gameManager.SwitchToWorld(enemyType == "boss");
         }

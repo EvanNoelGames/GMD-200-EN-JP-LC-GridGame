@@ -2427,6 +2427,7 @@ MonoBehaviour:
   enemy: {fileID: 7248960676501710514, guid: 3b58a3106891c8b4081aa110d8ca71f6, type: 3}
   activeEnemies: []
   enemyMovements: []
+  endTurn: 0
 --- !u!4 &953574479
 Transform:
   m_ObjectHideFlags: 0
@@ -3025,6 +3026,7 @@ MonoBehaviour:
   playerStats: {fileID: 218226718}
   playerMovement: {fileID: 218226715}
   gameManager: {fileID: 1045652746}
+  enemyManager: {fileID: 953574478}
   state: 0
 --- !u!4 &1197078377
 Transform:

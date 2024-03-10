@@ -331,10 +331,9 @@ public class PlayerMovement : MonoBehaviour
             EnemyStats colEnemyStats = collision.GetComponent<EnemyStats>();
 
             colEnemy.endMovement = true;
+            lockPlayer = true;
 
             transform.DOTogglePause();
-
-            roomManager.RemoveEnemy(colEnemy);
 
             enemyFighting = colEnemyStats;
             gameManager.SwitchToBattle();

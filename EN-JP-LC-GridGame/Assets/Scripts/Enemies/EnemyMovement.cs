@@ -74,11 +74,10 @@ public class EnemyMovement : MonoBehaviour
     {
         bool cantMove = true;
 
-        while (cantMove)
+        // if the enemy is set to be agressive, follow the player
+        if (enemyStats.aggressive)
         {
-            yield return new WaitForSeconds(0.00000001f);
-            // if the enemy is set to be agressive, follow the player
-            if (enemyStats.aggressive)
+            while (cantMove)
             {
                 if (Mathf.Abs(enemyManager.playerMovement.transform.position.x - transform.position.x) < 0.01)
                 {
@@ -107,13 +106,17 @@ public class EnemyMovement : MonoBehaviour
                     }
                 }
 
-                if (cantMove && canMoveUp && canMoveDown && canMoveRight && canMoveLeft)
+                if (cantMove && !canMoveUp && !canMoveDown && !canMoveRight && !canMoveLeft)
                 {
                     cantMove = false;
                     facingDirection = Vector2.zero;
                 }
+                yield return null;
             }
-            else
+        }
+        else
+        {
+            while (cantMove)
             {
                 nextDirection = Random.Range(0, 4);
                 if (nextDirection == 0 && canMoveUp && CheckDir(new Vector3(transform.localPosition.x, transform.localPosition.y + (1 + (1 * roomManager.padding)), 0)))
@@ -136,11 +139,12 @@ public class EnemyMovement : MonoBehaviour
                     cantMove = false;
                     facingDirection = Vector2.left;
                 }
-                else if (cantMove && canMoveUp && canMoveDown && canMoveRight && canMoveLeft)
+                else if (cantMove && !canMoveUp && !canMoveDown && !canMoveRight && !canMoveLeft)
                 {
                     cantMove = false;
                     facingDirection = Vector2.zero;
                 }
+                yield return null;
             }
         }
 
@@ -155,12 +159,11 @@ public class EnemyMovement : MonoBehaviour
         // stop two or more enemies from going on the same tile
         for (int i = 0; i < enemyManager.enemyMovements.Count; i++)
         {
-            if (Vector3.Distance(enemyManager.enemyMovements[i], dir) < 0.1f)
+            if (Vector2.Distance(new Vector2(enemyManager.enemyMovements[i].x, enemyManager.enemyMovements[i].y), new Vector2(dir.x, dir.y)) < 0.1f)
             {
                 return false;
             }
         }
-
         return true;
     }
 

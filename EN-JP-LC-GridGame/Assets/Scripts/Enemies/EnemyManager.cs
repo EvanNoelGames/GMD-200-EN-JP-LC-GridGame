@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -34,13 +35,24 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator Co_MoveEnemies()
     {
-
         for (int i = 0; i < activeEnemies.Count; i++)
         {
-            activeEnemies[i].doneMoving = false;
-            activeEnemies[i].enemyManager = this;
+            if (playerMovement.enemyFighting == null)
+            {
+                activeEnemies[i].doneMoving = false;
+                activeEnemies[i].enemyManager = this;
 
-            activeEnemies[i].EnemyTurn();
+                activeEnemies[i].EnemyTurn();
+                while (!activeEnemies[i].doneMoving)
+                {
+                    yield return null;
+                }
+            }
+            else
+            {
+                activeEnemies.Clear();
+                i = activeEnemies.Count;
+            }
         }
 
         enemyMovements.Clear();
