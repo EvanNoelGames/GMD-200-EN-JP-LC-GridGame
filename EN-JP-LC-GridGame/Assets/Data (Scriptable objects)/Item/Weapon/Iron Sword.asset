@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Iron Sword
   itemType: 0
   rarity: 0
-  damage: 5
+  damage: 10
   defence: 0
   healing: 0
   sprite: {fileID: 21300000, guid: 4157e141edc0c2741a303351f837c043, type: 3}

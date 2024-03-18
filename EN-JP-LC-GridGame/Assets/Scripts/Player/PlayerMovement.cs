@@ -333,6 +333,8 @@ public class PlayerMovement : MonoBehaviour
             colEnemy.endMovement = true;
             lockPlayer = true;
 
+            roomManager._enemies.Remove(colEnemy);
+
             transform.DOTogglePause();
 
             enemyFighting = colEnemyStats;

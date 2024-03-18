@@ -1056,8 +1056,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLevel: 1
-  playerHealth: 100
-  playerMaxHealth: 120
+  playerHealth: 15
+  playerMaxHealth: 17
 --- !u!1 &244884142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,7 +2427,6 @@ MonoBehaviour:
   enemy: {fileID: 7248960676501710514, guid: 3b58a3106891c8b4081aa110d8ca71f6, type: 3}
   activeEnemies: []
   enemyMovements: []
-  endTurn: 0
 --- !u!4 &953574479
 Transform:
   m_ObjectHideFlags: 0

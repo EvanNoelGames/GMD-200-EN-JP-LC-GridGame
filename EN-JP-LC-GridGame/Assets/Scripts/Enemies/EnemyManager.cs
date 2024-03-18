@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                activeEnemies.Clear();
+                //activeEnemies.Clear();
                 i = activeEnemies.Count;
             }
         }
