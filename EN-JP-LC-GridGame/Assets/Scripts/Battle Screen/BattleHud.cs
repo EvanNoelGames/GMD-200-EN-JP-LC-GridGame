@@ -9,7 +9,7 @@ public class BattleHud : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI levelText;
     public Slider hpSlider;
-    public Image healthBar;
+    
 
     public void SetHud(Unit unit)
     {
@@ -23,9 +23,10 @@ public class BattleHud : MonoBehaviour
     {
         hpSlider.maxValue = newMaxHp;
     }
-
+  
     public void SetHP(int hp)
     {
         hpSlider.value = hp;
     }
+   
 }

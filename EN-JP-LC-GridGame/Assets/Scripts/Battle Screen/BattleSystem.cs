@@ -6,9 +6,8 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
-
-
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
+
 public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
@@ -86,15 +85,12 @@ public class BattleSystem : MonoBehaviour
         playerTurn();
     }
 
-    IEnumerator PlayerAttack()
+    public IEnumerator PlayerAttack()
     {
        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-
+        
         enemyHud.SetHP(enemyUnit.currentHP);
-        dialougeText.text = "The attack is succesful";
-
-        yield return new WaitForSeconds(2f);    
-
+       
         if(isDead)
         {
             state = BattleState.WON;
@@ -103,18 +99,21 @@ public class BattleSystem : MonoBehaviour
         else
         {
             state = BattleState.ENEMYTURN;
+            dialougeText.text = "You deal " + playerUnit.damage + " damage...";
+            yield return new WaitForSeconds(2f);
             StartCoroutine(EnemyTurn());
         }
+        
     }
 
     public void UpdatePlayerHP()
     {
         playerHud.SetHP(playerStats.playerHealth);
         playerHud.UpdateMaxHPHud(playerStats.playerMaxHealth);
-
+        
     }
 
-    IEnumerator EnemyTurn()
+  public IEnumerator EnemyTurn()
     {
         playerUnit.currentHP = playerStats.playerHealth;
         playerUnit.maxHP = playerStats.playerMaxHealth;
@@ -141,6 +140,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         playerStats.playerHealth = playerUnit.currentHP;
+        
     }
 
     void EndBattle()
@@ -168,15 +168,16 @@ public class BattleSystem : MonoBehaviour
         dialougeText.text = "Choose an action:";
     }
 
-    IEnumerator PlayerHeal()
+    public IEnumerator PlayerHeal()
     {
         playerUnit.Heal(5);
+        state = BattleState.ENEMYTURN;
 
         playerHud.SetHP(playerUnit.currentHP);
+        dialougeText.text = "You healed for 5.";
 
         yield return new WaitForSeconds(2f);
 
-        state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
     public void OnAttackButton()
@@ -185,6 +186,7 @@ public class BattleSystem : MonoBehaviour
             return; 
 
         StartCoroutine(PlayerAttack());
+        
     }
 
     public void OnHealButton()
@@ -195,3 +197,5 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(PlayerHeal());
     }
 }
+
+

@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
 
     public int damage;
 
-    public int maxHP;
+    public int maxHP = 1;
     public int currentHP;
 
     public Sprite sprite;
@@ -31,7 +31,6 @@ public class Unit : MonoBehaviour
         else 
             return false;
     }
-
     public void Heal(int amount)
     {
         currentHP += amount;
