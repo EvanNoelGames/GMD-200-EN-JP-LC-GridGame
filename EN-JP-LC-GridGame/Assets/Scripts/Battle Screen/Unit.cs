@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
 
     public int damage;
 
-    public int maxHP = 1;
+    public int maxHP;
     public int currentHP;
 
     public Sprite sprite;
