@@ -39,6 +39,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] public TextMeshProUGUI armorText;
     [SerializeField] public TextMeshProUGUI specialText;
     [SerializeField] public TextMeshProUGUI statsText;
+    [SerializeField] public TextMeshProUGUI maxHealthText;
+    [SerializeField] public TextMeshProUGUI currentHealthText;
     [SerializeField] public Camera cam;
 
     private void Awake()
@@ -91,6 +93,8 @@ public class InventoryUI : MonoBehaviour
                 armorText.enabled = false;
                 specialText.enabled = false;
                 statsText.enabled = false;
+                maxHealthText.enabled = false;
+                currentHealthText.enabled = false;
             }
             else
             {
@@ -114,6 +118,8 @@ public class InventoryUI : MonoBehaviour
                 armorText.enabled = true;
                 specialText.enabled = true;
                 statsText.enabled = true;
+                maxHealthText.enabled = true;
+                currentHealthText.enabled = true;
             }
         }
     }
