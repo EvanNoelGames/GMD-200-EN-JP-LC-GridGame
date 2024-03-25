@@ -32,6 +32,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private EnemyManager enemyManager;
+    [SerializeField] private InventoryUI inventoryUI;
 
     public BattleState state;
 
@@ -138,7 +139,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         playerStats.playerHealth = playerUnit.currentHP;
-  }
+    }
     void EndBattle()
     {
         if (state == BattleState.WON)

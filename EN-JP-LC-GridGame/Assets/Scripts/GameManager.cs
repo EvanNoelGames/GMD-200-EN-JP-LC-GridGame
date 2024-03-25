@@ -70,14 +70,7 @@ public class GameManager : MonoBehaviour
    public IEnumerator Co_GameOver()
     {
         yield return new WaitForSeconds(delay);
-        if(state == BattleState.LOST)
-        {
-            SceneManager.LoadScene("End");
-        }
-        else 
-        {
-            SceneManager.LoadScene("Main");
-        }
+        SceneManager.LoadScene("End");
         //SceneManager.GetActiveScene().buildIndex);
     }
 
