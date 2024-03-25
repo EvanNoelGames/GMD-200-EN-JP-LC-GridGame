@@ -10,7 +10,6 @@ public class BattleHud : MonoBehaviour
     public TextMeshProUGUI levelText;
     public Slider hpSlider;
     
-
     public void SetHud(Unit unit)
     {
         nameText.text = unit.unitName;

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public BattleState state;
+
     private int currentFloor = 1;
     private int inventorySlots = 8;
 
@@ -65,10 +67,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Co_GameOver());
     }
 
-    IEnumerator Co_GameOver()
+   public IEnumerator Co_GameOver()
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if(state == BattleState.LOST)
+        {
+            SceneManager.LoadScene("End");
+        }
+        else 
+        {
+            SceneManager.LoadScene("Main");
+        }
+        //SceneManager.GetActiveScene().buildIndex);
     }
 
     public void NextFloor()

@@ -48,7 +48,6 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.START;
         StartCoroutine(SetUpBattle());
     }
-
     IEnumerator SetUpBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
@@ -105,7 +104,6 @@ public class BattleSystem : MonoBehaviour
         }
         
     }
-
     public void UpdatePlayerHP()
     {
         playerHud.SetHP(playerStats.playerHealth);
@@ -114,7 +112,7 @@ public class BattleSystem : MonoBehaviour
     }
 
   public IEnumerator EnemyTurn()
-    {
+  {
         playerUnit.currentHP = playerStats.playerHealth;
         playerUnit.maxHP = playerStats.playerMaxHealth;
 
@@ -140,9 +138,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         playerStats.playerHealth = playerUnit.currentHP;
-        
-    }
-
+  }
     void EndBattle()
     {
         if (state == BattleState.WON)
@@ -188,7 +184,6 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(PlayerAttack());
         
     }
-
     public void OnHealButton()
     {
         if (state != BattleState.PLAYERTURN)
