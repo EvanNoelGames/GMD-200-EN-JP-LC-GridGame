@@ -19,10 +19,4 @@ public class PlayerStats : MonoBehaviour
             playerHealth = playerMaxHealth;
         }
     }
-
-    private void Update()
-    {
-        maxHealthText.text = "Max Health: " + playerMaxHealth.ToString();
-        currentHealthText.text = "Current Health: " + playerHealth.ToString();
-    }
 }

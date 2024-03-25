@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
     {
          
         yield return new WaitForSeconds(delay);
+<<<<<<< HEAD
         if(playerStats.playerHealth == 0)
         {
             SceneManager.LoadScene("End");
@@ -81,6 +82,11 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Main");
         }
    }
+=======
+        SceneManager.LoadScene("End");
+        //SceneManager.GetActiveScene().buildIndex);
+    }
+>>>>>>> e98c3c1c0ee99b2d2dd34643719e3f112a2ceb89
 
     public void NextFloor()
     {

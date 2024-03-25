@@ -69,6 +69,9 @@ public class InventoryUI : MonoBehaviour
             transform.position = new Vector3(0, 0, -5);
         }
 
+        maxHealthText.text = "Max Health: " + playerStats.playerMaxHealth.ToString();
+        currentHealthText.text = "Current Health: " + playerStats.playerHealth.ToString();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (showing)
