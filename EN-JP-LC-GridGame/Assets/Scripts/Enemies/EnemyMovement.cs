@@ -148,10 +148,7 @@ public class EnemyMovement : MonoBehaviour
             }
         }
 
-        if (facingDirection != Vector2.zero)
-        {
-            MoveEnemy();
-        }
+        MoveEnemy();
     }
 
     private bool CheckDir(Vector3 dir)
@@ -188,6 +185,11 @@ public class EnemyMovement : MonoBehaviour
         {
             transform.DOLocalMoveY(transform.localPosition.y - (1 + (1 * roomManager.padding)), moveSpeed).SetEase(moveEaseType);
             nextPos = new Vector2(transform.localPosition.x, transform.localPosition.y - (1 + (1 * roomManager.padding)));
+        }
+        else
+        {
+            doneMoving = true;
+            return;
         }
         enemyManager.enemyMovements.Add(nextPos);
         doneMoving = true;

@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour
 
     private float turnSpeed = 0.2f;
 
+    private bool done = false;
+
     private void Update()
     {
         GetActiveEnemies();
@@ -33,8 +35,15 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(Co_MoveEnemies());
     }
 
+    IEnumerator Co_EndTurn()
+    {
+        yield return new WaitForSeconds(2);
+        done = true;
+    }
+
     IEnumerator Co_MoveEnemies()
     {
+        done = false;
         for (int i = 0; i < activeEnemies.Count; i++)
         {
             if (playerMovement.enemyFighting == null)
@@ -43,14 +52,22 @@ public class EnemyManager : MonoBehaviour
                 activeEnemies[i].enemyManager = this;
 
                 activeEnemies[i].EnemyTurn();
-                while (!activeEnemies[i].doneMoving)
+                StartCoroutine(Co_EndTurn());
+                while (!activeEnemies[i].doneMoving && !done)
                 {
                     yield return null;
+                    if (done)
+                    {
+                        for (int j = 0; j < activeEnemies.Count; j++)
+                        {
+                            activeEnemies[j].doneMoving = true;
+                            activeEnemies[j].StopAllCoroutines();
+                        }
+                    }
                 }
             }
             else
             {
-                //activeEnemies.Clear();
                 i = activeEnemies.Count;
             }
         }
@@ -60,5 +77,6 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(turnSpeed);
 
         playerMovement.SetPlayerTurn(true);
+        StopAllCoroutines();
     }
 }

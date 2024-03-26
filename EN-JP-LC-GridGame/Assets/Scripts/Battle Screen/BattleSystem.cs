@@ -168,6 +168,11 @@ public class BattleSystem : MonoBehaviour
     public IEnumerator PlayerHeal()
     {
         playerUnit.Heal(5);
+        playerStats.playerHealth = playerStats.playerHealth + 5;
+        if (playerStats.playerHealth > playerStats.playerMaxHealth)
+        {
+            playerStats.playerHealth = playerStats.playerMaxHealth;
+        }
         state = BattleState.ENEMYTURN;
 
         playerHud.SetHP(playerUnit.currentHP);
