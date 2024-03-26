@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
    public IEnumerator Co_GameOver()
     {
         yield return new WaitForSeconds(delay);
-        if(playerStats.playerHealth <= 0) 
+        if(playerStats.playerHealth <= 0 || numSteps <= 0) 
         {
             SceneManager.LoadScene("End");
            
