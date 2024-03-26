@@ -965,8 +965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLevel: 1
-  playerHealth: 10
-  playerMaxHealth: 12
+  playerHealth: 17
+  playerMaxHealth: 17
   maxHealthText: {fileID: 832884418}
   currentHealthText: {fileID: 1669609723}
 --- !u!1 &259969829
@@ -3071,7 +3071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786dbfb2bd4a5df46b69a542f5608fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  playerStats: {fileID: 218226718}
   numSteps: 0
   world: {fileID: 1497834378}
   battleScreen: {fileID: 1067738675}

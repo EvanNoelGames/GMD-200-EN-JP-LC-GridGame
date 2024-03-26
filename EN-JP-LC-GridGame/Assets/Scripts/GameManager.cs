@@ -69,9 +69,16 @@ public class GameManager : MonoBehaviour
 
    public IEnumerator Co_GameOver()
     {
-         
         yield return new WaitForSeconds(delay);
-
+        if(playerStats.playerHealth <= 0) 
+        {
+            SceneManager.LoadScene("End");
+           
+        }
+        else
+        {
+            SceneManager.LoadScene("Main");
+        }
    }
     public void NextFloor()
     {

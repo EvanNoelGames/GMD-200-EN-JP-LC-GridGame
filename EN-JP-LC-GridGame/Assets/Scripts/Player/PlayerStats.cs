@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public int playerLevel = 1;
-    public int playerHealth = 12;
-    public int playerMaxHealth = 12;
+    public int playerHealth = 15;
+    public int playerMaxHealth = 17;
 
     [SerializeField] private TextMeshProUGUI maxHealthText;
     [SerializeField] private TextMeshProUGUI currentHealthText;
